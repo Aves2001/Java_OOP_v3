@@ -11,8 +11,8 @@ public class Variant3 {
 	private static double[] y;
 	private static Scanner scaner;
 	
-	public static int minIndex; // індекс мінімального елемента в масиві y
-	public static int maxIndex; // індекс максимального елемента в масиві y
+	public static int minIndex; // С–РЅРґРµРєСЃ РјС–РЅС–РјР°Р»СЊРЅРѕРіРѕ РµР»РµРјРµРЅС‚Р° РІ РјР°СЃРёРІС– y
+	public static int maxIndex; // С–РЅРґРµРєСЃ РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ РµР»РµРјРµРЅС‚Р° РІ РјР°СЃРёРІС– y
 	public static final int EPS = 12;
 	
 	public static double round(double value, int places) {
@@ -35,14 +35,14 @@ public class Variant3 {
 			System.out.printf("dx = ");
 				dx = scaner.nextDouble();
 				if (dx <= 0) {
-					throw new Exception("Крок не може бути менше або дорівнювати 0");
+					throw new Exception("РљСЂРѕРє РЅРµ РјРѕР¶Рµ Р±СѓС‚Рё РјРµРЅС€Рµ Р°Р±Рѕ РґРѕСЂС–РІРЅСЋРІР°С‚Рё 0");
 				}
 			System.out.printf("a = ");
 				a = scaner.nextDouble();
 			System.out.printf("b = ");
 				b = scaner.nextDouble();
 				if (b - a < 0) {
-					throw new Exception("\"а\" має бути менше або дорівнювати \"b\"");
+					throw new Exception("\"Р°\" РјР°С” Р±СѓС‚Рё РјРµРЅС€Рµ Р°Р±Рѕ РґРѕСЂС–РІРЅСЋРІР°С‚Рё \"b\"");
 				}
 			System.out.println();
 			genArray(dx, a, b);
@@ -50,25 +50,25 @@ public class Variant3 {
 			showSummSerAg();
 		}
 		catch(InputMismatchException e) {
-			System.out.println("Помилка: Потрібно ввести число");
+			System.out.println("РџРѕРјРёР»РєР°: РџРѕС‚СЂС–Р±РЅРѕ РІРІРµСЃС‚Рё С‡РёСЃР»Рѕ");
 		}
 		catch (Exception e) {
-			System.out.println("Помилка: " + e.getMessage());
+			System.out.println("РџРѕРјРёР»РєР°: " + e.getMessage());
 		}
 	}
 	
 	public void showSummSerAg() {
 		
-		System.out.printf("Сума значень функції: %.3f\n", arraySummValueY());
-		System.out.printf("Середнє арифметичне значень функції: %.3f\n", arraySerAgValueY());
+		System.out.printf("РЎСѓРјР° Р·РЅР°С‡РµРЅСЊ С„СѓРЅРєС†С–С—: %.3f\n", arraySummValueY());
+		System.out.printf("РЎРµСЂРµРґРЅС” Р°СЂРёС„РјРµС‚РёС‡РЅРµ Р·РЅР°С‡РµРЅСЊ С„СѓРЅРєС†С–С—: %.3f\n", arraySerAgValueY());
 	}
 	
 	public void showMinMaxValue() {
-		System.out.printf("Min: %d елемент по y = %.3f\n", minIndex, y[minIndex]);
-		System.out.printf("     %d елемент по x = %.3f\n\n", minIndex, x[minIndex]);
+		System.out.printf("Min: %d РµР»РµРјРµРЅС‚ РїРѕ y = %.3f\n", minIndex, y[minIndex]);
+		System.out.printf("     %d РµР»РµРјРµРЅС‚ РїРѕ x = %.3f\n\n", minIndex, x[minIndex]);
 		
-		System.out.printf("Max: %d елемент по y = %.3f\n",  maxIndex, y[maxIndex]);
-		System.out.printf("     %d елемент по x = %.3f\n\n",  maxIndex, x[maxIndex]);
+		System.out.printf("Max: %d РµР»РµРјРµРЅС‚ РїРѕ y = %.3f\n",  maxIndex, y[maxIndex]);
+		System.out.printf("     %d РµР»РµРјРµРЅС‚ РїРѕ x = %.3f\n\n",  maxIndex, x[maxIndex]);
 	}
 	
 	public double arraySerAgValueY() {
