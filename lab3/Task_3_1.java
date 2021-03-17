@@ -41,7 +41,7 @@ public class Task_3_1 {
 					scanner = new Scanner(System.in);
 					do {
 						System.out.println("\nВиберіть як правильно пишеться слово: " + arrStr[i]);
-						System.out.println("1) " + tmp.toString());
+						System.out.println("1) " + String.valueOf(tmp));
 						System.out.println("2) " + arrStr[i]);
 						System.out.print(">");
 						num = scanner.nextInt();
@@ -51,7 +51,7 @@ public class Task_3_1 {
 					}while(num != 1 && num != 2);
 
 					if (num == 1) {
-						arrStr[i] = new String(tmp);
+						arrStr[i] = String.valueOf(tmp);
 					}
 					else if (num == 2) {}
 				}
