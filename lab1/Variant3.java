@@ -51,7 +51,7 @@ public class Variant3 {
 	
 	private void showDate() {
 		Date d = new Date();
-		System.out.printf("\nДата: %1$tB, %1$td %1$tY %1$tA", d);
+		System.out.printf("\nР”Р°С‚Р°: %1$tB, %1$td %1$tY %1$tA", d);
 	}
 
 }

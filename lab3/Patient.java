@@ -56,14 +56,14 @@ public class Patient {
 		scanner = new Scanner(System.in);
 		String Diagnosis;
 		do {
-			System.out.print("\nДіагноз: ");
+			System.out.print("\nР”С–Р°РіРЅРѕР·: ");
 			Diagnosis = scanner.nextLine();
 			int num = Patient.FilterDiagnosis(PatientArray, Diagnosis);
 			if (num == 0 && Diagnosis != "") {
-				System.out.println("За вказаним діагнозом нічого не знайдено");
+				System.out.println("Р—Р° РІРєР°Р·Р°РЅРёРј РґС–Р°РіРЅРѕР·РѕРј РЅС–С‡РѕРіРѕ РЅРµ Р·РЅР°Р№РґРµРЅРѕ");
 			}
 			else if(Diagnosis != "") {
-				System.out.println("\nКількість знайдених записів:  " + num);
+				System.out.println("\nРљС–Р»СЊРєС–СЃС‚СЊ Р·РЅР°Р№РґРµРЅРёС… Р·Р°РїРёСЃС–РІ:  " + num);
 			}
 		}while(Diagnosis != "");
 	}
@@ -87,23 +87,23 @@ public class Patient {
 		int start, end;
 		String inputStr;
 		do {
-		System.out.print("\nВід: ");
+		System.out.print("\nР’С–Рґ: ");
 		
 		inputStr = scanner.nextLine();
 		if (inputStr == "") { break; }
 		else { start = Integer.parseInt(inputStr); }
 		
-		System.out.print("До: ");
+		System.out.print("Р”Рѕ: ");
 		inputStr = scanner.nextLine();
 		if (inputStr == "") { break; }
 		else { end = Integer.parseInt(inputStr); }
 		
 		int num = FilterMedicalCardNumber(str, start, end);
 		if (num == 0 && inputStr != "") {
-			System.out.println("\nЗа вказаним діагнозом нічого не знайдено");
+			System.out.println("\nР—Р° РІРєР°Р·Р°РЅРёРј РґС–Р°РіРЅРѕР·РѕРј РЅС–С‡РѕРіРѕ РЅРµ Р·РЅР°Р№РґРµРЅРѕ");
 		}
 		else if(inputStr != "") {
-			System.out.println("\nКількість знайдених записів:  " + num);
+			System.out.println("\nРљС–Р»СЊРєС–СЃС‚СЊ Р·РЅР°Р№РґРµРЅРёС… Р·Р°РїРёСЃС–РІ:  " + num);
 		}
 		}while(inputStr != "");
 	}
@@ -113,11 +113,11 @@ public class Patient {
 		String input;
 		do {
 			System.out.print("-----------------------------------------------------------------------------------");
-			System.out.println("\nВиберіть, що потрібно вивести на екран:");
-			System.out.println("0) Вихід, або Enter");
-			System.out.println("1) список пацієнтів, які мають вказаний діагноз");
-			System.out.println("2) список пацієнтів, номер медичної карти у яких знаходиться в заданому інтервалі");
-			System.out.print("\nВибрати: ");
+			System.out.println("\nР’РёР±РµСЂС–С‚СЊ, С‰Рѕ РїРѕС‚СЂС–Р±РЅРѕ РІРёРІРµСЃС‚Рё РЅР° РµРєСЂР°РЅ:");
+			System.out.println("0) Р’РёС…С–Рґ, Р°Р±Рѕ Enter");
+			System.out.println("1) СЃРїРёСЃРѕРє РїР°С†С–С”РЅС‚С–РІ, СЏРєС– РјР°СЋС‚СЊ РІРєР°Р·Р°РЅРёР№ РґС–Р°РіРЅРѕР·");
+			System.out.println("2) СЃРїРёСЃРѕРє РїР°С†С–С”РЅС‚С–РІ, РЅРѕРјРµСЂ РјРµРґРёС‡РЅРѕС— РєР°СЂС‚Рё Сѓ СЏРєРёС… Р·РЅР°С…РѕРґРёС‚СЊСЃСЏ РІ Р·Р°РґР°РЅРѕРјСѓ С–РЅС‚РµСЂРІР°Р»С–");
+			System.out.print("\nР’РёР±СЂР°С‚Рё: ");
 
 			input = scanner.nextLine();
 			System.out.print("-----------------------------------------------------------------------------------");
@@ -129,7 +129,7 @@ public class Patient {
 				Patient.FilterMedicalCardNumber(arrPatient);
 			}
 			else if(input != "" && !input.equals("0")) {
-				System.out.println("\nТакого пункта немає");
+				System.out.println("\nРўР°РєРѕРіРѕ РїСѓРЅРєС‚Р° РЅРµРјР°С”");
 			}
 		}while(input != "" && !input.equals("0"));
 	}
@@ -137,13 +137,13 @@ public class Patient {
 	public String toString() {
 		return String.format("\n############################"
 				+ "\n# ID: %-20s"
-				+ "\n# Прізвище: %-20s"
-				+ "\n# Ім'я: %-20s"
-				+ "\n# По батькові: %-20s"
-				+ "\n# Адреса: %-20s"
-				+ "\n# Телефон: %-20s"
-				+ "\n# № медичної карти: %-20s"
-				+ "\n# Діагноз: %-20s",
+				+ "\n# РџСЂС–Р·РІРёС‰Рµ: %-20s"
+				+ "\n# Р†Рј'СЏ: %-20s"
+				+ "\n# РџРѕ Р±Р°С‚СЊРєРѕРІС–: %-20s"
+				+ "\n# РђРґСЂРµСЃР°: %-20s"
+				+ "\n# РўРµР»РµС„РѕРЅ: %-20s"
+				+ "\n# в„– РјРµРґРёС‡РЅРѕС— РєР°СЂС‚Рё: %-20s"
+				+ "\n# Р”С–Р°РіРЅРѕР·: %-20s",
 				getId(),
 				getLastName(),
 				getName(),

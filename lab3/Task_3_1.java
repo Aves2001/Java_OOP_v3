@@ -8,19 +8,19 @@ public class Task_3_1 {
 	public static void main(String[] args) {
 		Task_3_1 task_3_1 = new Task_3_1();
 
-		System.out.println("Варіант 3. В тексті після літери Р, якщо вона не остання в слові, помилково надрукована літера А замість О. \nВнести виправлення в текст\n");
+		System.out.println("Р’Р°СЂС–Р°РЅС‚ 3. Р’ С‚РµРєСЃС‚С– РїС–СЃР»СЏ Р»С–С‚РµСЂРё Р , СЏРєС‰Рѕ РІРѕРЅР° РЅРµ РѕСЃС‚Р°РЅРЅСЏ РІ СЃР»РѕРІС–, РїРѕРјРёР»РєРѕРІРѕ РЅР°РґСЂСѓРєРѕРІР°РЅР° Р»С–С‚РµСЂР° Рђ Р·Р°РјС–СЃС‚СЊ Рћ. \nР’РЅРµСЃС‚Рё РІРёРїСЂР°РІР»РµРЅРЅСЏ РІ С‚РµРєСЃС‚\n");
 		try {
 			scanner = new Scanner(System.in);
 			
-			System.out.print("Введіть рядок: ");
+			System.out.print("Р’РІРµРґС–С‚СЊ СЂСЏРґРѕРє: ");
 			String str = scanner.nextLine();
 
-			System.out.println("\nВхідний рядок: " + str + "\n");
+			System.out.println("\nР’С…С–РґРЅРёР№ СЂСЏРґРѕРє: " + str + "\n");
 			str = task_3_1.test(str);
 
-			System.out.println("\nРезультат: " + str + "\n");
+			System.out.println("\nР РµР·СѓР»СЊС‚Р°С‚: " + str + "\n");
 		} catch (Exception e) {
-			System.out.println("Помилка: " + e.getMessage());
+			System.out.println("РџРѕРјРёР»РєР°: " + e.getMessage());
 		}
 	}
 
@@ -31,22 +31,22 @@ public class Task_3_1 {
 			tmp = arrStr[i].toCharArray();
 			
 			for (int j = 0; j < tmp.length - 1; j++) {
-				if ((tmp[j] == 'Р' || tmp[j] == 'р') && tmp[1+j] == 'а') {
+				if ((tmp[j] == 'Р ' || tmp[j] == 'СЂ') && tmp[1+j] == 'Р°') {
 //					System.out.println(arrStr[i]);
 //					System.out.println("i = " + i);
 //					System.out.println("j = " + j );
-					tmp[1+j] = 'о';
+					tmp[1+j] = 'Рѕ';
 					
 					int num = 0;
 					scanner = new Scanner(System.in);
 					do {
-						System.out.println("\nВиберіть як правильно пишеться слово: " + arrStr[i]);
+						System.out.println("\nР’РёР±РµСЂС–С‚СЊ СЏРє РїСЂР°РІРёР»СЊРЅРѕ РїРёС€РµС‚СЊСЃСЏ СЃР»РѕРІРѕ: " + arrStr[i]);
 						System.out.println("1) " + String.valueOf(tmp));
 						System.out.println("2) " + arrStr[i]);
 						System.out.print(">");
 						num = scanner.nextInt();
 						if (num != 1 && num != 2) {
-							System.out.println("Такого пункт немає");
+							System.out.println("РўР°РєРѕРіРѕ РїСѓРЅРєС‚ РЅРµРјР°С”");
 						}
 					}while(num != 1 && num != 2);
 
