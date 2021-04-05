@@ -25,9 +25,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.Font;
+import javax.swing.JTextArea;
+import java.awt.SystemColor;
 
 public class Frame extends JFrame {
-
+	final private boolean LOG_ON = true;
 	/**
 	 * 
 	 */
@@ -62,8 +64,9 @@ public class Frame extends JFrame {
 	 */
 	public Frame(){
 		setResizable(false);
+		setTitle("Lab 4");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 300);
+		setBounds(100, 100, 420, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -74,12 +77,14 @@ public class Frame extends JFrame {
 		contentPane.add(topPanel, BorderLayout.NORTH);
 		
 		JTextPane txtpnDx = new JTextPane();
+		txtpnDx.setBackground(SystemColor.control);
 		txtpnDx.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtpnDx.setEditable(false);
 		txtpnDx.setText("dx = ");
 		topPanel.add(txtpnDx);
 		
 		TextField textField_dx = new TextField();
+		textField_dx.setText("1");
 		textField_dx.setFont(new Font("Arial", Font.PLAIN, 14));
 		textField_dx.addFocusListener(new FocusAdapter() {
 			@Override
@@ -88,16 +93,17 @@ public class Frame extends JFrame {
 			}
 		});
 		textField_dx.setColumns(4);
-//		textField_dx.setSize(WIDTH, HEIGHT);
 		topPanel.add(textField_dx);
 		
 		JTextPane txtpnA = new JTextPane();
+		txtpnA.setBackground(SystemColor.control);
 		txtpnA.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtpnA.setEditable(false);
 		txtpnA.setText("a = ");
 		topPanel.add(txtpnA);
 		
 		TextField textField_a = new TextField();
+		textField_a.setText("0");
 		textField_a.setFont(new Font("Arial", Font.PLAIN, 14));
 		textField_a.addFocusListener(new FocusAdapter() {
 			@Override
@@ -109,12 +115,14 @@ public class Frame extends JFrame {
 		topPanel.add(textField_a);
 		
 		JTextPane txtpnB = new JTextPane();
+		txtpnB.setBackground(SystemColor.control);
 		txtpnB.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtpnB.setEditable(false);
 		txtpnB.setText("b = ");
 		topPanel.add(txtpnB);
 		
 		TextField textField_b = new TextField();
+		textField_b.setText("0");
 		textField_b.setFont(new Font("Arial", Font.PLAIN, 14));
 		textField_b.addFocusListener(new FocusAdapter() {
 			@Override
@@ -133,13 +141,13 @@ public class Frame extends JFrame {
 		JPanel task_1 = new JPanel();
 		FlowLayout fl_task_1 = (FlowLayout) task_1.getLayout();
 		fl_task_1.setAlignment(FlowLayout.LEFT);
-		fl_task_1.setHgap(40);
+		fl_task_1.setHgap(20);
 		centralPanel.add(task_1);
 		
-		JTextField distance = new JTextField();
+		JTextArea distance = new JTextArea();
+		distance.setColumns(16);
 		distance.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		distance.setBackground(Color.WHITE);
-		distance.setColumns(20);
+		distance.setBackground(SystemColor.control);
 		task_1.add(distance);
 		distance.setText("Відстань: ");
 		distance.setEditable(false);
@@ -153,13 +161,13 @@ public class Frame extends JFrame {
 		
 		JPanel task_2 = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) task_2.getLayout();
-		flowLayout.setHgap(40);
+		flowLayout.setHgap(20);
 		centralPanel.add(task_2);
 		
-		JTextField numberOfNegative = new JTextField();
+		JTextArea numberOfNegative = new JTextArea();
 		numberOfNegative.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		numberOfNegative.setColumns(20);
-		numberOfNegative.setBackground(Color.WHITE);
+		numberOfNegative.setColumns(16);
+		numberOfNegative.setBackground(SystemColor.control);
 		task_2.add(numberOfNegative);
 		numberOfNegative.setText("Кількість відємних елементів: ");
 		numberOfNegative.setEditable(false);
@@ -173,14 +181,14 @@ public class Frame extends JFrame {
 		
 		JPanel panel_summ = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panel_summ.getLayout();
-		flowLayout_1.setHgap(40);
+		flowLayout_1.setHgap(20);
 		centralPanel.add(panel_summ);
 		
-		JTextField summ = new JTextField();
+		JTextArea summ = new JTextArea();
+		summ.setColumns(16);
 		summ.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		summ.setBackground(Color.WHITE);
-		summ.setColumns(20);
-		summ.setText("Сума додатніх елементів:       ");
+		summ.setBackground(SystemColor.control);
+		summ.setText("Сума додатніх елементів:");
 		summ.setEditable(false);
 		panel_summ.add(summ);
 		
@@ -192,15 +200,17 @@ public class Frame extends JFrame {
 		panel_summ.add(summ_res);
 		
 		JPanel panel_average = new JPanel();
+		panel_average.setToolTipText("1");
 		FlowLayout flowLayout_2 = (FlowLayout) panel_average.getLayout();
-		flowLayout_2.setHgap(40);
+		flowLayout_2.setHgap(20);
 		centralPanel.add(panel_average);
 		
-		JTextField average = new JTextField();
+		JTextArea average = new JTextArea();
+		average.setColumns(16);
+		average.setToolTipText("");
 		average.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		average.setBackground(Color.WHITE);
-		average.setColumns(20);
-		average.setText("Середнє арифметичне:");
+		average.setBackground(SystemColor.control);
+		average.setText("Середнє арифметичне\r\nдодатніх елементів:");
 		average.setEditable(false);
 		panel_average.add(average);
 		
@@ -225,17 +235,17 @@ public class Frame extends JFrame {
 					textField_a.getBackground() == Color.RED ||
 					textField_b.getBackground()== Color.RED) {
 					btnNewButton.setEnabled(false);
+					return;
 				}
-				else {
-					btnNewButton.setEnabled(true);
-				}
-				if (textField_dx.getText().equals("") || 
+				else if (textField_dx.getText().equals("") || 
 						textField_a.getText().equals("") ||
 						textField_b.getText().equals("")) {
 						btnNewButton.setEnabled(false);
+						return;
 					}
 					else {
 						btnNewButton.setEnabled(true);
+						return;
 					}
 			}
 		});
@@ -262,31 +272,26 @@ public class Frame extends JFrame {
 				lab2.genArray(x1, x2, x3);
 
 				int size;
-				if (minIndex >= maxIndex) {
+				if (minIndex > maxIndex) {
 					size = lab2.calcSizeArrayDX(1, maxIndex, minIndex);
 				}
 				else {
 					size = lab2.calcSizeArrayDX(1, minIndex, maxIndex);
 				}
-				System.out.println("\n\n\n");
-				for (int i = 0; i < size; i++) {
-					System.out.printf("y[%d] = %.3f\n", i, lab2.showArrayIndexY(i));
-				}
-				
-				if (minIndex == maxIndex) {
-					size = 0;
-				}
-				else if (size != 0) {
-					size -= 2;
-				}
-				System.out.println("minIndex = " + minIndex);
-				System.out.println("maxIndex = " + maxIndex);
-				System.out.println("size = " + size);
 				
 				distance_res.setText(String.valueOf(size));
 				distance_res.setEnabled(true);
 				
 				size = lab2.calcSizeArrayDX(x1, x2, x3);
+				if (LOG_ON) {
+					System.out.println("\n\n\n");
+					for (int i = 0; i < size; i++) {
+						System.out.printf("y[%d] = %.3f\n", i, lab2.showArrayIndexY(i));
+					}
+
+					System.out.println("maxIndex = " + maxIndex);
+					System.out.println("minIndex = " + minIndex);
+				}
 				int num = 0;
 				double summ = 0;
 				for (int i = 0; i < size; i++) {
@@ -299,7 +304,7 @@ public class Frame extends JFrame {
 				}
 				numberOfNegative_res.setText(String.valueOf(num));
 				summ_res.setText(String.valueOf(summ));
-				average_res.setText(String.valueOf(Variant3.round(summ / size, 3)));
+				average_res.setText(String.valueOf(Variant3.round(summ / (size - num), 3)));
 				
 				distance_res.setEnabled(true);
 				numberOfNegative_res.setEnabled(true);
@@ -330,7 +335,7 @@ public class Frame extends JFrame {
 		lowerPanel.add(btnNewButton_2);
 	}
 	@SuppressWarnings("finally")
-	private double Test(TextField textField, String lvl) {		
+	public double Test(TextField textField, String lvl) {		
 		boolean ok = true;
 		double x1 = 1;
 		

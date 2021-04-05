@@ -78,7 +78,7 @@ public class Variant3 {
 	public double arraySummValueY() {
 		double summ = 0;
 		for (double d : y) {
-			summ += d;
+			summ = round(summ += d, EPS);
 		}
 		return round(summ, EPS);
 	}
