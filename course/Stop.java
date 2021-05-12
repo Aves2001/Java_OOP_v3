@@ -32,10 +32,9 @@ public class Stop implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Stop> input(File file) {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-			return (List<Stop>) ois.readObject();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+			List<Stop> tmp = (List<Stop>) ois.readObject();
+			return tmp;
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;

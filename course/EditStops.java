@@ -36,8 +36,7 @@ public class EditStops extends JFrame {
 	 * Create the frame.
 	 */
 	public EditStops() {
-		
-		
+
 		setTitle("Редагування зупинок");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 435, 366);
@@ -52,25 +51,21 @@ public class EditStops extends JFrame {
 		System.out.println(Main.stops.size());
 
 		Object[][] tmp = new Object[Main.stops.size()][2];
-		
+
 		for (int i = 0; i < Main.stops.size(); i++) {
 			tmp[i][0] = Main.stops.get(i).getId();
 			tmp[i][1] = Main.stops.get(i).getTitle();
 		}
-		
+
 		table = new JTable();
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		table.setModel(new DefaultTableModel(
-			tmp,
-			new String[] {
-				"ID", "Назва зупинки"
-			}
-		) {
+		table.setModel(new DefaultTableModel(tmp, new String[] { "ID", "Назва зупинки" }) {
 
 			private static final long serialVersionUID = -3578241024259492519L;
-			Class[] columnTypes = new Class[] {
-				Integer.class, Object.class
-			};
+			@SuppressWarnings("rawtypes")
+			Class[] columnTypes = new Class[] { Integer.class, Object.class };
+
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -90,8 +85,10 @@ public class EditStops extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main.stops.clear();
-				for (Object[] o : tmp) {
-					Main.stops.add(new Stop((int)o[0], o[1].toString()));
+				for (int i = 0; i < table.getRowCount(); i++) {
+					if (table.getValueAt(i, 0) != null && table.getValueAt(i, 1) != null) {						
+						Main.stops.add(new Stop((int)table.getValueAt(i, 0), table.getValueAt(i, 1).toString()));
+					}
 				}
 				try {
 					Stop.out(Main.stops);
@@ -99,6 +96,7 @@ public class EditStops extends JFrame {
 					// TODO Автоматически созданный блок catch
 					e1.printStackTrace();
 				}
+				dispose();
 			}
 		});
 		panel.add(btnNewButton);
@@ -114,7 +112,12 @@ public class EditStops extends JFrame {
 		JButton btnNewButton_2 = new JButton("-");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.removeRow(table.getSelectedRow());
+				if (table.getSelectedRow() != -1) {					
+					model.removeRow(table.getSelectedRow());
+				}
+				else {
+					model.removeRow(table.getRowCount()-1);
+				}
 			}
 		});
 		panel.add(btnNewButton_2);
