@@ -48,15 +48,8 @@ public class EditStops extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 
-		System.out.println(Main.stops.size());
-
-		Object[][] tmp = new Object[Main.stops.size()][2];
-
-		for (int i = 0; i < Main.stops.size(); i++) {
-			tmp[i][0] = Main.stops.get(i).getId();
-			tmp[i][1] = Main.stops.get(i).getTitle();
-		}
-
+		Object[][] tmp = Main.stops.stream().map(s -> s.toArray()).toArray(Object[][]::new);
+		
 		table = new JTable();
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		table.setModel(new DefaultTableModel(tmp, new String[] { "ID", "Назва зупинки" }) {
@@ -99,6 +92,14 @@ public class EditStops extends JFrame {
 				dispose();
 			}
 		});
+		
+		JButton btnNewButton_3 = new JButton("Імпорт");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ImportStops.main();
+			}
+		});
+		panel.add(btnNewButton_3);
 		panel.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("+");

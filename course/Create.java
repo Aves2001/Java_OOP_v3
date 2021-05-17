@@ -13,12 +13,9 @@ import java.awt.EventQueue;
 import java.awt.SystemColor;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -200,7 +197,6 @@ public class Create extends JFrame {
 				System.out.println("202 перевірка");
 			}
 		});
-	
 
 		btnNewButton.setEnabled(false);
 		btnNewButton.addActionListener(new ActionListener() {
@@ -242,12 +238,6 @@ public class Create extends JFrame {
 
 		table = new JTable();
 		InitTable(table);
-		table.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-			}
-		});
-
 		scrollPane.setViewportView(table);
 
 		Panel panel_3 = new Panel();
@@ -266,8 +256,12 @@ public class Create extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				byte index = (byte) tabbedPane.getSelectedIndex();
-				System.out.println(index);
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				DefaultTableModel model;
+				if (index == 0) {
+					model = (DefaultTableModel) table.getModel();
+				} else {
+					model = (DefaultTableModel) table_1.getModel();
+				}
 				model.addRow(new Object[] { null, null });
 			}
 		});
@@ -276,8 +270,18 @@ public class Create extends JFrame {
 		JButton btnNewButton_2 = new JButton("-");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				model.removeRow(table.getSelectedRow());
+				try {
+					byte index = (byte) tabbedPane.getSelectedIndex();
+					DefaultTableModel model = null;
+					if (index == 0 && table.getRowCount() > 1) {
+						model = (DefaultTableModel) table.getModel();
+						model.removeRow(table.getSelectedRow());
+					} else if(table_1.getRowCount() > 1) {
+						model = (DefaultTableModel) table_1.getModel();
+						model.removeRow(table_1.getSelectedRow());
+					}
+				} catch (Exception e2) {
+				}
 			}
 		});
 		panel_1.add(btnNewButton_2);
@@ -285,25 +289,15 @@ public class Create extends JFrame {
 	}
 
 	private void InitTable(JTable table) {
+		table.setModel(new DefaultTableModel(
+				new Object[][] {
+					{null},
+				},
+				new String[] {
+					"Зупинка"
+				}
+			));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setModel(new DefaultTableModel(new Object[][] { { null, null }, }, new String[] { "ID", "Зупинка" }) {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			@SuppressWarnings("rawtypes")
-			Class[] columnTypes = new Class[] { Integer.class, Object.class };
-
-			public Class<?> getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		/////////////////////////////////////////////////////////
-		table.getColumnModel().getColumn(0).setPreferredWidth(26);
-		table.getColumnModel().getColumn(0).setMinWidth(10);
-		table.getColumnModel().getColumn(1).setPreferredWidth(150);
-		table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(comboBoxStops));
 		table.setCellSelectionEnabled(true);
 		table.setColumnSelectionAllowed(true);
 		table.setRowSelectionAllowed(true);
