@@ -69,7 +69,7 @@ public class Main extends JFrame {
 		});
 	}
 
-	private static void Init() throws IOException {
+	private static void Init() throws IOException, ClassNotFoundException {
 //		stops = new ArrayList<>();
 //		stops.add(new Stop(25356, "Держуніверситет"));
 //		stops.add(new Stop(113, "вул. Богдана Хмельницького"));
@@ -104,6 +104,14 @@ public class Main extends JFrame {
 //		r.add(new Route(2, "2", TransportType.bus, 7, 10, "06:00 - 23:00", new Flights(Flights2_1, "вул.")));
 		stops = Stop.input();
 		r = Route.input();
+		if (r.size() == 0) {
+			System.out.println(r.size());
+			Dialog.main("Маршрути не знайдені. Для роботи з маршрутами спочатку дадайте їх.");
+		}
+		if (stops.size() == 0) {
+			System.out.println(r.size());
+			Dialog.main("Зупинки не знайдені.");
+		}
 	}
 
 	/**
@@ -111,6 +119,7 @@ public class Main extends JFrame {
 	 */
 	@SuppressWarnings("deprecation")
 	public Main() {
+		setTitle("Відомості про маршрути громадського транспорту");
 		JComboBox<Object> comboBox = new JComboBox<Object>();
 		JComboBox<Object> comboBox_1 = new JComboBox<Object>();
 
@@ -174,8 +183,7 @@ public class Main extends JFrame {
 				/////////////////////////////////////////////////////////////////////////////////
 				JFileChooser fileopen = new JFileChooser(new File(".").getAbsolutePath());
 				fileopen.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-				int ret = fileopen.showDialog(null, "Открыть файл");
+				int ret = fileopen.showDialog(null, "Відкрити файл");
 				if (ret == JFileChooser.APPROVE_OPTION) {
 					r = Route.input(fileopen.getSelectedFile());
 				}
@@ -225,6 +233,8 @@ public class Main extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 
 		JPanel panel_1 = new JPanel();
+	
+	
 		FlowLayout flowLayout_2 = (FlowLayout) panel_1.getLayout();
 		flowLayout_2.setAlignment(FlowLayout.LEFT);
 		panel.add(panel_1);
@@ -251,6 +261,7 @@ public class Main extends JFrame {
 						showInfo(comboBox, comboBox_1, textPane_2);
 					} else {
 						setSelectedClear(comboBox, comboBox_1, textPane_2);
+						Dialog.main("Немає маршрутів тролейбусів");
 					}
 				}
 			}
@@ -271,6 +282,7 @@ public class Main extends JFrame {
 						showInfo(comboBox, comboBox_1, textPane_2);
 					} else {
 						setSelectedClear(comboBox, comboBox_1, textPane_2);
+						Dialog.main("Немає маршрутів автобусів");
 					}
 				}
 			}
@@ -292,8 +304,7 @@ public class Main extends JFrame {
 		textPane_3.setBackground(SystemColor.menu);
 		panel_6.add(textPane_3);
 
-		///////////////////////////////////// JComboBox<Object> comboBox = new
-		///////////////////////////////////// JComboBox<Object>();
+		///////////// JComboBox<Object> comboBox = new JComboBox<Object>();
 		comboBox.setEnabled(false);
 		panel_6.add(comboBox);
 		comboBox_1.setEnabled(false);
@@ -326,8 +337,7 @@ public class Main extends JFrame {
 		selModel.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				// TODO Автоматически созданная заглушка метода
-				System.out.println("1");
+				System.out.println(table.getSelectedRow());
 			}
 		});
 		table.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -337,11 +347,10 @@ public class Main extends JFrame {
 		table.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		table.setFillsViewportHeight(true);
 		scrollPane.setViewportView(table);
-		
-		
+
 		/////////////////////////////////////////////////////////////////////////////////// textPane_2
 
-		textPane_2.setPreferredSize(new Dimension(200, 200));
+		textPane_2.setPreferredSize(new Dimension(400, 200));
 		panel.add(textPane_2);
 
 		textPane_2.setBackground(SystemColor.control);

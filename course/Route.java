@@ -2,11 +2,13 @@ package course;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Route implements Serializable  {
@@ -36,7 +38,7 @@ public class Route implements Serializable  {
 		return id;
 	}
 
-	public static long getSerialversionuid() {
+	public long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
@@ -82,27 +84,33 @@ public class Route implements Serializable  {
 	public static List<Route> input(File file)
 	{
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-				return (List<Route>) ois.readObject();
+			List<Route> tmp = (List<Route>) ois.readObject();
+				return tmp; 
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+//		catch (Exception e) {
+//			// TODO: handle exception
+//			return null;
+//		}
 		return null;
 		
 	}
 	@SuppressWarnings("unchecked")
-	public static List<Route> input()
+	public static List<Route> input() throws IOException, ClassNotFoundException
 	{
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Route.bin"))) {
-				return (List<Route>) ois.readObject();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+			return (List<Route>) ois.readObject();
+			} catch (FileNotFoundException e) {
+				List<Route> r = new ArrayList<Route>();
+				out(r);
+				return r;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		return null;
-		
 	}
 	
 	public String getInfo() {
@@ -114,7 +122,7 @@ public class Route implements Serializable  {
 				+ "Час роботи: %s \n",
 				
 				routeName,
-				"\n" + flights.getFlightName1() + flights.getFlightName2() + "\n",
+				"\n" + "Прямий: " + flights.getFlightName1() + "\nЗворотний: " + flights.getFlightName2() + "\n",
 				transportType,
 				price,
 				interval,

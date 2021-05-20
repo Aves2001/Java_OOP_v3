@@ -11,29 +11,47 @@ public class Flights implements Serializable {
 	private static final long serialVersionUID = -204990551418375223L;
 	private static int i = 0;
 	private int[] id_flight1;
-	private String flightName1;
+//	private String flightName1;
 
 	private int[] id_flight2;
-	private String flightName2;
+//	private String flightName2;
 
-	public Flights(int[] flight1, String flightName1) {
+	public Flights(int[] flight1) {
 		this.id_flight1 = flight1;
-		this.flightName1 = flightName1;
+//		this.flightName1 = flightName1;
 	}
 
-	public Flights(int[] flight1, String flightName1, int[] flight2, String flightName2) {
+	public Flights(int[] flight1, int[] flight2) {
 		this.id_flight1 = flight1;
-		this.flightName1 = flightName1;
+//		this.flightName1 = flightName1;
 		this.id_flight2 = flight2;
-		this.flightName2 = flightName2;
+//		this.flightName2 = flightName2;
 	}
 
 	public String getFlightName1() {
-		return flightName1 != null ? flightName1 : "";
+		return getFlightName(id_flight1);
 	}
-
+	
 	public String getFlightName2() {
-		return flightName2 != null ? flightName2 : "";
+		return getFlightName(id_flight2);
+	}
+	
+	private String getFlightName(int[] id_flight)
+	{
+		String str1 = null, str2 = null;
+		try {
+			str1= Main.stops.stream().filter(s -> s.getId() == id_flight[0]).map(s -> s.getTitle()).toArray()[0].toString();			
+		} catch (Exception e) {
+			// TODO: handle exception
+			str1 = "[" + id_flight[0] + "]" + " [Інформація відсутня]";
+		}
+		
+		try {			
+			str2 = " -- " + Main.stops.stream().filter(s -> s.getId() == id_flight[id_flight.length - 1]).map(s -> s.getTitle()).toArray()[0].toString();
+		} catch (Exception e) {
+			str2 = " -- " + "[" + id_flight[id_flight.length - 1] + "]" + " [Інформація відсутня]";
+		}
+		return str1 + str2;
 	}
 
 	public int[] getId_flight1() {
@@ -45,29 +63,33 @@ public class Flights implements Serializable {
 	}
 
 	public Object[] getFlight(int num, List<Stop> stops) {
-		List<String> tmp = new ArrayList<String>();
-		String x;
 		try {
 			if (num == 1) {
-				for (i = 0; i < id_flight1.length; i++) {
-					x = stops.stream().filter(s -> s.getId() == id_flight1[i]).map(s -> s.getTitle()).toArray()[0]
-							.toString();
-					tmp.add(x);
-				}
-				return tmp.toArray();
+				return tmp_add(id_flight1, stops);
 			} else if (num == 2) {
-				for (i = 0; i < id_flight2.length; i++) {
-					x = stops.stream().filter(s -> s.getId() == id_flight2[i]).map(s -> s.getTitle()).toArray()[0]
-							.toString();
-					tmp.add(x);
-				}
-				return tmp.toArray();
+				return tmp_add(id_flight2, stops);
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			// TODO: handle exception
 			System.out.println("error------------- class Flights ------------- getFlight");
+			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private Object[] tmp_add (int[] id_flight, List<Stop> stops)
+	{
+		List<String> tmp = new ArrayList<String>();
+		String x;
+		for (i = 0; i < id_flight.length; i++) {
+			try {						
+				x = stops.stream().filter(s -> s.getId() == id_flight[i]).map(s -> s.getTitle()).toArray()[0].toString();
+			} catch (Exception e) {
+				x = "        [" + id_flight[i] + "]" + " [Інформація відсутня]";
+			}
+			tmp.add(x);
+		}
+		return tmp.toArray();
 	}
 
 	@Override

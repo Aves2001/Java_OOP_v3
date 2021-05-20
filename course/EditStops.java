@@ -7,7 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -17,7 +20,7 @@ import java.awt.Font;
 public class EditStops extends JFrame {
 	private static final long serialVersionUID = -5580386848933709904L;
 	private JPanel contentPane;
-	private JTable table;
+	public static JTable table;
 
 	public static void main() {
 		EventQueue.invokeLater(new Runnable() {
@@ -49,7 +52,7 @@ public class EditStops extends JFrame {
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 
 		Object[][] tmp = Main.stops.stream().map(s -> s.toArray()).toArray(Object[][]::new);
-		
+
 		table = new JTable();
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		table.setModel(new DefaultTableModel(tmp, new String[] { "ID", "Назва зупинки" }) {
@@ -69,6 +72,9 @@ public class EditStops extends JFrame {
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		table.getColumnModel().getColumn(1).setMinWidth(150);
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+        RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+        table.setRowSorter(sorter);
 		scrollPane.setViewportView(table);
 
 		JPanel panel = new JPanel();
@@ -79,8 +85,8 @@ public class EditStops extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Main.stops.clear();
 				for (int i = 0; i < table.getRowCount(); i++) {
-					if (table.getValueAt(i, 0) != null && table.getValueAt(i, 1) != null) {						
-						Main.stops.add(new Stop((int)table.getValueAt(i, 0), table.getValueAt(i, 1).toString()));
+					if (table.getValueAt(i, 0) != null && table.getValueAt(i, 1) != null) {
+						Main.stops.add(new Stop((int) table.getValueAt(i, 0), table.getValueAt(i, 1).toString()));
 					}
 				}
 				try {
@@ -92,11 +98,11 @@ public class EditStops extends JFrame {
 				dispose();
 			}
 		});
-		
+
 		JButton btnNewButton_3 = new JButton("Імпорт");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ImportStops.main();
+				ImportStops.main(model);
 			}
 		});
 		panel.add(btnNewButton_3);
@@ -113,11 +119,13 @@ public class EditStops extends JFrame {
 		JButton btnNewButton_2 = new JButton("-");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (table.getSelectedRow() != -1) {					
-					model.removeRow(table.getSelectedRow());
+				if (table.getSelectedRow() == -1) {
+					return;
 				}
-				else {
-					model.removeRow(table.getRowCount()-1);
+				int numRows = table.getSelectedRows().length;
+				for (int i = 0; i < numRows; i++) {
+
+					model.removeRow(table.getSelectedRow());
 				}
 			}
 		});

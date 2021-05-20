@@ -2,11 +2,13 @@ package course;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +16,10 @@ import java.util.stream.Collectors;
 public class Stop implements Serializable {
 
 	private static final long serialVersionUID = -4285967733695047959L;
+	public long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	private int id;
 	private String title;
 
@@ -50,13 +56,21 @@ public class Stop implements Serializable {
 				.collect(Collectors.toList()); 
 	}
 
+
 	@SuppressWarnings("unchecked")
-	public static List<Stop> input() {
+	public static List<Stop> input() throws IOException {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Stops.bin"))) {
 			List<Stop> tmp = (List<Stop>) ois.readObject(); 
 			return SortToId(tmp);
-		} catch (Exception e) {
-			Dialog_error.main(null);
+		}catch (FileNotFoundException e) {
+			e.printStackTrace();
+			List<Stop> s = new ArrayList<Stop>();
+			out(s);
+			return s;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.out.println();
 		}
 		return null;
 	}

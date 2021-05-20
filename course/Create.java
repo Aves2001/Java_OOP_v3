@@ -13,9 +13,12 @@ import java.awt.EventQueue;
 import java.awt.SystemColor;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +27,10 @@ import java.awt.Panel;
 import javax.swing.JTable;
 import javax.swing.JTabbedPane;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class Create extends JFrame {
 
@@ -53,15 +57,27 @@ public class Create extends JFrame {
 	}
 
 	public Create() {
+		setTitle("Новий маршрут");
 		comboBoxStops = new JComboBox<String>();
+		comboBoxStops.setEditable(false);
 		List<Integer> StopsId = new ArrayList<Integer>();
 		for (Stop item : Main.stops) {
-			comboBoxStops.addItem(item.toString());
+			comboBoxStops.addItem(item.getId() + ": " + item.toString());
 			StopsId.add(item.getId());
 		}
-		comboBoxStops.setEditable(true);
+		comboBoxStops.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+		        validate();
+			}
+			@Override
+			public void focusGained(FocusEvent e) {
+			        validate();
+			}
+		});
+
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 658, 311);
+		setBounds(100, 100, 739, 370);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -198,59 +214,80 @@ public class Create extends JFrame {
 			}
 		});
 
-		btnNewButton.setEnabled(false);
+		btnNewButton.setEnabled(true); ////////////////////////
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String name1 = String.valueOf(table.getValueAt(0, 1)) + " - "
-						+ table.getValueAt(table.getRowCount() - 1, 1);
-				String name2 = String.valueOf(table_1.getValueAt(0, 1)) + " - "
-						+ table_1.getValueAt(table_1.getRowCount() - 1, 1);
+				try {
 
-				Flights flights = new Flights(getIdTable(table), name1, (int[]) getIdTable(table_1), name2);
-				System.out.println(flights);
+//					int id_1 = Integer.parseInt(table.getValueAt(0, 0).toString().split(":")[0]);
+//					int id_2 = Integer.parseInt(table.getValueAt(table.getRowCount() - 1, 0).toString().split(":")[0]);
 
-				Main.r.add(new Route(Integer.parseInt(formattedTextField_id.getText()),
-						formattedTextField_routeName.getText(), transportType,
-						Integer.parseInt(formattedTextField_price.getText()),
-						Integer.parseInt(formattedTextField_interval.getText()), formattedTextField_workTime.getText(),
-						flights));
+//					String name1 = Main.stops.stream().filter(s -> s.getId() == id_1).map(s -> s.getTitle()).toArray()[0] + " - " + Main.stops.stream().filter(s -> s.getId() == id_2).map(s -> s.getTitle()).toArray()[0];
+
+//					int id_3 = Integer.parseInt(table_1.getValueAt(0, 0).toString().split(":")[0]);
+//					int id_4 = Integer.parseInt(table_1.getValueAt(table_1.getRowCount() - 1, 0).toString().split(":")[0]);
+
+//					String name2 = Main.stops.stream().filter(s -> s.getId() == id_3).map(s -> s.getTitle()).toArray()[0] + " - " + Main.stops.stream().filter(s -> s.getId() == id_4).map(s -> s.getTitle()).toArray()[0];
+
+					Flights flights = new Flights(getIdTable(table), getIdTable(table_1));
+
+					Main.r.add(new Route(Integer.parseInt(formattedTextField_id.getText()),
+							formattedTextField_routeName.getText(), transportType,
+							Integer.parseInt(formattedTextField_price.getText()),
+							Integer.parseInt(formattedTextField_interval.getText()),
+							formattedTextField_workTime.getText(), flights));
+					dispose();
+				} catch (NullPointerException e1) {
+					Dialog.main("Потрібно вказати зупинки");
+				}
 			}
 		});
 
 		Panel panel_1 = new Panel();
-		panel_1.setPreferredSize(new Dimension(300, 200));
+		panel_1.setPreferredSize(new Dimension(350, 160));
 		contentPane.add(panel_1, BorderLayout.EAST);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setFocusCycleRoot(true);
+		tabbedPane.setFocusTraversalPolicyProvider(true);
 		tabbedPane.setToolTipText("");
 		tabbedPane.setName("");
-		tabbedPane.setPreferredSize(new Dimension(300, 200));
 		panel_1.add(tabbedPane);
 
 		Panel panel_2 = new Panel();
-		panel_2.setPreferredSize(new Dimension(300, 170));
-		panel_2.getLayout();
+		panel_2.setPreferredSize(new Dimension(350, 220));
+		panel_2.setBackground(SystemColor.control);
 		tabbedPane.addTab("Прямий", null, panel_2, null);
-
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setPreferredSize(new Dimension(300, 170));
+		scrollPane.setPreferredSize(new Dimension(350, 220));
 		panel_2.add(scrollPane);
 
 		table = new JTable();
+		table.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				System.out.println("asdasd");
+				
+			}
+		});
 		InitTable(table);
 		scrollPane.setViewportView(table);
 
 		Panel panel_3 = new Panel();
-		panel_3.setPreferredSize(new Dimension(300, 170));
+		panel_3.setPreferredSize(new Dimension(350, 220));
 		tabbedPane.addTab("Зворотній", null, panel_3, null);
-
+		panel_3.setBackground(SystemColor.control);
+		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setPreferredSize(new Dimension(300, 170));
+		scrollPane_1.setPreferredSize(new Dimension(350, 220));
 		panel_3.add(scrollPane_1);
 
 		table_1 = new JTable();
 		InitTable(table_1);
 		scrollPane_1.setViewportView(table_1);
+
+		DefaultCellEditor editor = new DefaultCellEditor(comboBoxStops);
+		table.getColumnModel().getColumn(0).setCellEditor(editor);
+		table_1.getColumnModel().getColumn(0).setCellEditor(editor);
 
 		JButton btnNewButton_1 = new JButton("+");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -262,7 +299,7 @@ public class Create extends JFrame {
 				} else {
 					model = (DefaultTableModel) table_1.getModel();
 				}
-				model.addRow(new Object[] { null, null });
+				model.addRow(new Object[] { null });
 			}
 		});
 		panel_1.add(btnNewButton_1);
@@ -276,11 +313,12 @@ public class Create extends JFrame {
 					if (index == 0 && table.getRowCount() > 1) {
 						model = (DefaultTableModel) table.getModel();
 						model.removeRow(table.getSelectedRow());
-					} else if(table_1.getRowCount() > 1) {
+					} else if (table_1.getRowCount() > 1) {
 						model = (DefaultTableModel) table_1.getModel();
 						model.removeRow(table_1.getSelectedRow());
 					}
 				} catch (Exception e2) {
+					e2.printStackTrace();
 				}
 			}
 		});
@@ -289,25 +327,14 @@ public class Create extends JFrame {
 	}
 
 	private void InitTable(JTable table) {
-		table.setModel(new DefaultTableModel(
-				new Object[][] {
-					{null},
-				},
-				new String[] {
-					"Зупинка"
-				}
-			));
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setCellSelectionEnabled(true);
-		table.setColumnSelectionAllowed(true);
-		table.setRowSelectionAllowed(true);
+		table.setModel(new DefaultTableModel(null,  new String[] { "Зупинка" }));
 	}
 
 	private int[] getIdTable(JTable table) {
 		int size = table.getRowCount();
 		int[] flight = new int[size];
 		for (int i = 0; i < size; i++) {
-			flight[i] = (int) table.getValueAt(i, 0);
+			flight[i] = Integer.parseInt(table.getValueAt(i, 0).toString().split(":")[0]);
 		}
 		return flight;
 	}
