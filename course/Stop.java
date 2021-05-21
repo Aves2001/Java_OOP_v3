@@ -2,7 +2,6 @@ package course;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -43,12 +42,11 @@ public class Stop implements Serializable {
 			List<Stop> tmp = (List<Stop>) ois.readObject(); 
 			return SortToId(tmp);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return null;
 	}
 	
-	private static List<Stop> SortToId(List<Stop> tmp)
+	private static List<Stop> SortToId(List<Stop> tmp) throws Exception
 	{
 		return tmp
 				.stream()
@@ -60,19 +58,14 @@ public class Stop implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Stop> input() throws IOException {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Stops.bin"))) {
-			List<Stop> tmp = (List<Stop>) ois.readObject(); 
+			List<Stop> tmp = (List<Stop>) ois.readObject();
 			return SortToId(tmp);
-		}catch (FileNotFoundException e) {
-			e.printStackTrace();
+		}
+		catch (Exception e) {
 			List<Stop> s = new ArrayList<Stop>();
 			out(s);
 			return s;
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-			System.out.println();
-		}
-		return null;
 	}
 
 	public Object[] toArray() {

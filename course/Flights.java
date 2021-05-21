@@ -43,13 +43,23 @@ public class Flights implements Serializable {
 			str1= Main.stops.stream().filter(s -> s.getId() == id_flight[0]).map(s -> s.getTitle()).toArray()[0].toString();			
 		} catch (Exception e) {
 			// TODO: handle exception
-			str1 = "[" + id_flight[0] + "]" + " [Інформація відсутня]";
+			if (id_flight != null && id_flight.length > 0) {				
+				str1 = "[" + id_flight[0] + "]" + " [Інформація відсутня]";
+			}
+			else {
+				str1 = "[Інформація відсутня]";
+			}
 		}
 		
 		try {			
 			str2 = " -- " + Main.stops.stream().filter(s -> s.getId() == id_flight[id_flight.length - 1]).map(s -> s.getTitle()).toArray()[0].toString();
 		} catch (Exception e) {
-			str2 = " -- " + "[" + id_flight[id_flight.length - 1] + "]" + " [Інформація відсутня]";
+			if (id_flight != null && id_flight.length > 0) {				
+				str2 = " -- " + "[" + id_flight[id_flight.length - 1] + "]" + " [Інформація відсутня]";
+			}
+			else {
+				str2 = " -- [Інформація відсутня]";
+			}
 		}
 		return str1 + str2;
 	}
@@ -77,7 +87,7 @@ public class Flights implements Serializable {
 		return null;
 	}
 	
-	private Object[] tmp_add (int[] id_flight, List<Stop> stops)
+	public Object[] tmp_add (int[] id_flight, List<Stop> stops)
 	{
 		List<String> tmp = new ArrayList<String>();
 		String x;

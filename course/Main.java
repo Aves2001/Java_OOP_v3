@@ -22,6 +22,8 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
@@ -37,6 +39,8 @@ import java.awt.Panel;
 import java.awt.Cursor;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class Main extends JFrame {
 
@@ -70,47 +74,13 @@ public class Main extends JFrame {
 	}
 
 	private static void Init() throws IOException, ClassNotFoundException {
-//		stops = new ArrayList<>();
-//		stops.add(new Stop(25356, "Держуніверситет"));
-//		stops.add(new Stop(113, "вул. Богдана Хмельницького"));
-//		stops.add(new Stop(110, "вул. Степана Бандери"));
-//		stops.add(new Stop(107, "пл. Соборна"));
-//		stops.add(new Stop(104, "Центральний ринок"));
-//		stops.add(new Stop(269, "вул. Сторожинецька"));
-//		stops.add(new Stop(101, "вул. Олександра Щербанюка"));
-//		stops.add(new Stop(98, "Універсам \"Колос\""));
-//		stops.add(new Stop(143, "Тролейбусне депо"));
-//		stops.add(new Stop(142, "Мікрорайон"));
-//		stops.add(new Stop(140, "Формаркет"));
-//		stops.add(new Stop(139, "магазин \"Спорттовари\""));
-//		stops.add(new Stop(135, "вул. Ясська"));
-//		stops.add(new Stop(136, "вул. Ясська"));
-//		stops.add(new Stop(137, "пр. Незалежності"));
-//		stops.add(new Stop(138, "магазин \"Спорттовари\""));
-//		stops.add(new Stop(170, "вул. Небесної сотні"));
-//		stops.add(new Stop(141, "Мікрорайон"));
-//		stops.add(new Stop(99, "Універсам \"Колос\""));
-//		stops.add(new Stop(100, "вул. Олександра Щербанюка"));
-//		stops.add(new Stop(103, "Медучилище"));
-//		stops.add(new Stop(106, "пл. Соборна"));
-//		stops.add(new Stop(109, "Кінотеатр \"Чернівці\""));
-//		stops.add(new Stop(25354, "вул. Богдана Хмельницького"));
-//		int[] Flights1_1 = {25356, 113, 110, 107, 104, 269, 101, 98, 143, 142, 140, 139, 135};
-//		int[] Flights1_2 = {136, 137, 138, 170, 141, 99, 100, 103, 106, 109, 25354, 25356};
-//		int[] Flights2_1 = {138,141};
-
-//		r = new ArrayList<Route>();
-//		r.add(new Route(1, "1", TransportType.Trolleybus, 5, 10, "06:00 - 23:00", new Flights(Flights1_1, "вул. Садова - вул. Вижницька", Flights1_2, "вул. Вижницька - вул. Садова ")));
-//		r.add(new Route(2, "2", TransportType.bus, 7, 10, "06:00 - 23:00", new Flights(Flights2_1, "вул.")));
 		stops = Stop.input();
 		r = Route.input();
-		if (r.size() == 0) {
-			System.out.println(r.size());
-			Dialog.main("Маршрути не знайдені. Для роботи з маршрутами спочатку дадайте їх.");
+		if (r == null || r.size() == 0) {
+			new Dialog("Маршрути не знайдені. Для роботи з маршрутами спочатку дадайте їх.");
 		}
-		if (stops.size() == 0) {
-			System.out.println(r.size());
-			Dialog.main("Зупинки не знайдені.");
+		if (stops == null || stops.size() == 0) {
+			new Dialog("Зупинки не знайдені.");
 		}
 	}
 
@@ -119,9 +89,22 @@ public class Main extends JFrame {
 	 */
 	@SuppressWarnings("deprecation")
 	public Main() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 820, 381);
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation((screen.width - this.getWidth()) / 2, (screen.height - this.getHeight()) / 2);
+		
+		
 		setTitle("Відомості про маршрути громадського транспорту");
 		JComboBox<Object> comboBox = new JComboBox<Object>();
 		JComboBox<Object> comboBox_1 = new JComboBox<Object>();
+		
+		addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				setSelectedClear(comboBox, comboBox_1, textPane_2);
+			}
+		});
 
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -156,9 +139,6 @@ public class Main extends JFrame {
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Тролейбус");
 		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Автобус");
 //////////////////////////////////////////////////////////////////////////////////
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 820, 381);
-
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
@@ -183,9 +163,15 @@ public class Main extends JFrame {
 				/////////////////////////////////////////////////////////////////////////////////
 				JFileChooser fileopen = new JFileChooser(new File(".").getAbsolutePath());
 				fileopen.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				
 				int ret = fileopen.showDialog(null, "Відкрити файл");
 				if (ret == JFileChooser.APPROVE_OPTION) {
-					r = Route.input(fileopen.getSelectedFile());
+					if (Route.input(fileopen.getSelectedFile()) == null) {						
+						new Dialog("Такий файл не підтримується");
+					}
+					else {
+						r = Route.input(fileopen.getSelectedFile());
+					}
 				}
 			}
 		});
@@ -201,7 +187,8 @@ public class Main extends JFrame {
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				////////////////////////////////////////////////////////////////////
-				Create.main();
+				new Create();
+				setSelectedClear(comboBox, comboBox_1, textPane_2);
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_2);
@@ -214,6 +201,23 @@ public class Main extends JFrame {
 				setSelectedClear(comboBox, comboBox_1, textPane_2);
 			}
 		});
+		
+		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Редагувати маршрут");
+		mntmNewMenuItem_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					new Create(
+							(Route) r.stream().filter(s -> s.getTransportType() == transportType).toArray()[0]
+							);
+					setSelectedClear(comboBox, comboBox_1, textPane_2);
+				} catch (Exception e2) {
+					new Create();
+					setSelectedClear(comboBox, comboBox_1, textPane_2);
+					new Dialog("Ви не вибрали маршрут який потрібно відредагувати");
+				}
+			}
+		});
+		mnNewMenu_1.add(mntmNewMenuItem_5);
 		mnNewMenu_1.add(mntmNewMenuItem_3);
 
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Редагування зупинок");
@@ -261,7 +265,7 @@ public class Main extends JFrame {
 						showInfo(comboBox, comboBox_1, textPane_2);
 					} else {
 						setSelectedClear(comboBox, comboBox_1, textPane_2);
-						Dialog.main("Немає маршрутів тролейбусів");
+						new Dialog("Немає маршрутів тролейбусів");
 					}
 				}
 			}
@@ -282,7 +286,7 @@ public class Main extends JFrame {
 						showInfo(comboBox, comboBox_1, textPane_2);
 					} else {
 						setSelectedClear(comboBox, comboBox_1, textPane_2);
-						Dialog.main("Немає маршрутів автобусів");
+						new Dialog("Немає маршрутів автобусів");
 					}
 				}
 			}

@@ -2,7 +2,6 @@ package course;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -85,11 +84,11 @@ public class Route implements Serializable  {
 	{
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
 			List<Route> tmp = (List<Route>) ois.readObject();
+			if (tmp.get(0).getSerialversionuid() == serialVersionUID) {				
 				return tmp; 
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			}
+			} catch (Exception e) {
+				return null;
 			}
 //		catch (Exception e) {
 //			// TODO: handle exception
@@ -103,14 +102,11 @@ public class Route implements Serializable  {
 	{
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Route.bin"))) {
 			return (List<Route>) ois.readObject();
-			} catch (FileNotFoundException e) {
+			} catch (IOException e) {
 				List<Route> r = new ArrayList<Route>();
 				out(r);
 				return r;
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
-		return null;
 	}
 	
 	public String getInfo() {

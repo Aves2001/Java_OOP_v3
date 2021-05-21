@@ -14,6 +14,8 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
@@ -84,11 +86,13 @@ public class EditStops extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main.stops.clear();
+				Set<Integer> setStop = new HashSet<>();
 				for (int i = 0; i < table.getRowCount(); i++) {
-					if (table.getValueAt(i, 0) != null && table.getValueAt(i, 1) != null) {
+					if (table.getValueAt(i, 0) != null && table.getValueAt(i, 1) != null && setStop.add((int) table.getValueAt(i, 0))) {
 						Main.stops.add(new Stop((int) table.getValueAt(i, 0), table.getValueAt(i, 1).toString()));
 					}
 				}
+				setStop = null;
 				try {
 					Stop.out(Main.stops);
 				} catch (IOException e1) {
@@ -102,7 +106,7 @@ public class EditStops extends JFrame {
 		JButton btnNewButton_3 = new JButton("Імпорт");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ImportStops.main(model);
+				new Import(model);
 			}
 		});
 		panel.add(btnNewButton_3);
@@ -124,7 +128,6 @@ public class EditStops extends JFrame {
 				}
 				int numRows = table.getSelectedRows().length;
 				for (int i = 0; i < numRows; i++) {
-
 					model.removeRow(table.getSelectedRow());
 				}
 			}

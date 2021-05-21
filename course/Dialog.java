@@ -11,9 +11,11 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import javax.swing.JTextPane;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Cursor;
+import java.awt.Dimension;
 
 public class Dialog extends JDialog {
 
@@ -21,29 +23,32 @@ public class Dialog extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = -2160746013654435297L;
-
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String arg) {
-		try {
-			Dialog dialog = new Dialog(arg);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String arg) {
+//		try {
+//			Dialog dialog = new Dialog(arg);
+//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//			dialog.setVisible(true);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * Create the dialog.
 	 */
 	public Dialog(String arg) {
+		this.setVisible(true);
+		setBounds(100, 100, 340, 110);
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation((screen.width - this.getWidth()) / 2, (screen.height - this.getHeight()) / 2);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setFocusTraversalPolicyProvider(true);
-		setLocationByPlatform(true);
+//		setLocationByPlatform(true);
 		setAlwaysOnTop(true);
 		setTitle("Увага");
-		setBounds(100, 100, 340, 110);
 		getContentPane().setLayout(new BorderLayout());
 		{
 			JPanel buttonPane = new JPanel();
@@ -56,6 +61,8 @@ public class Dialog extends JDialog {
 						dispose();
 					}
 				});
+		   
+
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);

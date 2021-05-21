@@ -9,8 +9,8 @@ import javax.swing.text.NumberFormatter;
 import javax.swing.JTextPane;
 import javax.swing.JFormattedTextField;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
@@ -43,21 +43,57 @@ public class Create extends JFrame {
 	private JTable table_1 = null;
 	private JTable table = null;
 
-	public static void main() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Create frame = new Create();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private String old_id;
+	private String id = "";
+	private String routeName = "";
+	private String price = "";
+	private String interval = "";
+	private String workTime = "";
+
+	private Route route;
+
+	private String[][] str1 = null;
+	private String[][] str2 = null;
 
 	public Create() {
 		setTitle("Новий маршрут");
+		main();
+	}
+
+	public Create(Route r) {
+		this.route = r;
+		setTitle("Редагування маршруту");
+		id = String.valueOf(route.getId());
+		old_id = id;
+		routeName = route.getRouteName();
+		transportType = route.getTransportType();
+		price = String.valueOf(route.getPrice());
+		interval = String.valueOf(route.getInterval());
+		workTime = route.getWorkTime();
+		Flights flights = route.getFlights();
+
+		int[] tmp1 = flights.getId_flight1();
+		int[] tmp2 = flights.getId_flight2();
+		str1 = new String[tmp1.length][1];
+		str2 = new String[tmp2.length][1];
+
+		Object[] tmp = flights.tmp_add(tmp1, Main.stops);
+
+		for (int i = 0; i < tmp1.length; i++) {
+			str1[i][0] = tmp1[i] + ": " + String.valueOf(tmp[i]);
+		}
+		for (int i = 0; i < tmp2.length; i++) {
+			str2[i][0] = tmp2[i] + ": " + String.valueOf(tmp[i]);
+		}
+		main();
+	}
+
+	private void main() {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 739, 370);
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation((screen.width - this.getWidth()) / 2, (screen.height - this.getHeight()) / 2);
+		this.setVisible(true);
 		comboBoxStops = new JComboBox<String>();
 		comboBoxStops.setEditable(false);
 		List<Integer> StopsId = new ArrayList<Integer>();
@@ -68,16 +104,14 @@ public class Create extends JFrame {
 		comboBoxStops.addFocusListener(new FocusListener() {
 			@Override
 			public void focusLost(FocusEvent e) {
-		        validate();
+				validate();
 			}
+
 			@Override
 			public void focusGained(FocusEvent e) {
-			        validate();
+				validate();
 			}
 		});
-
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 739, 370);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -107,6 +141,7 @@ public class Create extends JFrame {
 		format_Int.setCommitsOnValidEdit(true);
 
 		JFormattedTextField formattedTextField_id = new JFormattedTextField(format_Int);
+		formattedTextField_id.setText(id);
 		formattedTextField_id.setFocusTraversalPolicyProvider(true);
 		formattedTextField_id.setPreferredSize(new Dimension(100, 20));
 
@@ -125,6 +160,7 @@ public class Create extends JFrame {
 		panel_routeName.add(txtpn_routeName);
 
 		JFormattedTextField formattedTextField_routeName = new JFormattedTextField();
+		formattedTextField_routeName.setText(routeName);
 		formattedTextField_routeName.setPreferredSize(new Dimension(100, 20));
 		panel_routeName.add(formattedTextField_routeName);
 
@@ -158,6 +194,14 @@ public class Create extends JFrame {
 		buttonGroup.add(rdbtnNewRadioButton_1);
 		panel_transportType.add(rdbtnNewRadioButton_1);
 
+		if (transportType != null) {
+			if (transportType == TransportType.Trolleybus) {
+				buttonGroup.setSelected(rdbtnNewRadioButton.getModel(), true);
+			} else {
+				buttonGroup.setSelected(rdbtnNewRadioButton_1.getModel(), true);
+			}
+		}
+
 		JPanel panel_price = new JPanel();
 		panel_price.setBackground(SystemColor.control);
 		panel_price.setPreferredSize(new Dimension(300, 30));
@@ -171,6 +215,7 @@ public class Create extends JFrame {
 		panel_price.add(txtpn_price);
 
 		JFormattedTextField formattedTextField_price = new JFormattedTextField();
+		formattedTextField_price.setText(price);
 		formattedTextField_price.setPreferredSize(new Dimension(100, 20));
 		panel_price.add(formattedTextField_price);
 
@@ -187,6 +232,7 @@ public class Create extends JFrame {
 		panel_interval.add(txtpn_interval);
 
 		JFormattedTextField formattedTextField_interval = new JFormattedTextField();
+		formattedTextField_interval.setText(interval);
 		formattedTextField_interval.setPreferredSize(new Dimension(100, 20));
 		panel_interval.add(formattedTextField_interval);
 
@@ -203,6 +249,7 @@ public class Create extends JFrame {
 		panel_workTime.add(txtpn_workTime);
 
 		JFormattedTextField formattedTextField_workTime = new JFormattedTextField();
+		formattedTextField_workTime.setText(workTime);
 		formattedTextField_workTime.setPreferredSize(new Dimension(100, 20));
 		panel_workTime.add(formattedTextField_workTime);
 
@@ -211,10 +258,14 @@ public class Create extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				System.out.println("202 перевірка");
+				if (formattedTextField_id.getText().equals("")) {
+					new Dialog("Потрібно вказати id");
+					return;
+				}
+				btnNewButton.setEnabled(true);
 			}
 		});
-
-		btnNewButton.setEnabled(true); ////////////////////////
+		btnNewButton.setEnabled(false); ////////////////////////
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -231,14 +282,23 @@ public class Create extends JFrame {
 
 					Flights flights = new Flights(getIdTable(table), getIdTable(table_1));
 
-					Main.r.add(new Route(Integer.parseInt(formattedTextField_id.getText()),
-							formattedTextField_routeName.getText(), transportType,
-							Integer.parseInt(formattedTextField_price.getText()),
-							Integer.parseInt(formattedTextField_interval.getText()),
-							formattedTextField_workTime.getText(), flights));
+//					Main.r.add(new Route(Integer.parseInt(formattedTextField_id.getText()),
+//							formattedTextField_routeName.getText(), transportType,
+//							Integer.parseInt(formattedTextField_price.getText()),
+//							Integer.parseInt(formattedTextField_interval.getText()),
+//							formattedTextField_workTime.getText(), flights));
+					if (route == null) {
+						add_route(formattedTextField_id, formattedTextField_routeName, formattedTextField_price,
+								formattedTextField_interval, formattedTextField_interval, formattedTextField_workTime,
+								flights);
+					} else {
+						update_route(old_id, formattedTextField_routeName, formattedTextField_price,
+								formattedTextField_interval, formattedTextField_interval, formattedTextField_workTime,
+								flights);
+					}
 					dispose();
 				} catch (NullPointerException e1) {
-					Dialog.main("Потрібно вказати зупинки");
+					new Dialog("Потрібно вказати зупинки");
 				}
 			}
 		});
@@ -266,23 +326,23 @@ public class Create extends JFrame {
 		table.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				System.out.println("asdasd");
-				
 			}
 		});
-		InitTable(table);
+		table.setModel(new DefaultTableModel(str1, new String[] { "Зупинка" }));
 		scrollPane.setViewportView(table);
 
 		Panel panel_3 = new Panel();
 		panel_3.setPreferredSize(new Dimension(350, 220));
 		tabbedPane.addTab("Зворотній", null, panel_3, null);
 		panel_3.setBackground(SystemColor.control);
-		
+
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setPreferredSize(new Dimension(350, 220));
 		panel_3.add(scrollPane_1);
 
 		table_1 = new JTable();
-		InitTable(table_1);
+		table_1.setModel(new DefaultTableModel(str2, new String[] { "Зупинка" }));
+
 		scrollPane_1.setViewportView(table_1);
 
 		DefaultCellEditor editor = new DefaultCellEditor(comboBoxStops);
@@ -302,6 +362,14 @@ public class Create extends JFrame {
 				model.addRow(new Object[] { null });
 			}
 		});
+
+		JButton btnNewButton_3 = new JButton("Імпорт ID");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Import(getSelectedModel(tabbedPane));
+			}
+		});
+		panel_1.add(btnNewButton_3);
 		panel_1.add(btnNewButton_1);
 
 		JButton btnNewButton_2 = new JButton("-");
@@ -310,10 +378,10 @@ public class Create extends JFrame {
 				try {
 					byte index = (byte) tabbedPane.getSelectedIndex();
 					DefaultTableModel model = null;
-					if (index == 0 && table.getRowCount() > 1) {
+					if (index == 0 && table.getSelectedRow() != -1 && table.getRowCount() > 0) {
 						model = (DefaultTableModel) table.getModel();
 						model.removeRow(table.getSelectedRow());
-					} else if (table_1.getRowCount() > 1) {
+					} else if (table_1.getSelectedRow() != -1 && table_1.getRowCount() > 0) {
 						model = (DefaultTableModel) table_1.getModel();
 						model.removeRow(table_1.getSelectedRow());
 					}
@@ -323,11 +391,49 @@ public class Create extends JFrame {
 			}
 		});
 		panel_1.add(btnNewButton_2);
+
+		JButton btnNewButton_4 = new JButton("Очистити");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				while (getSelectedModel(tabbedPane).getRowCount() > 0) {
+					getSelectedModel(tabbedPane).removeRow(0);
+				}
+			}
+		});
+		panel_1.add(btnNewButton_4);
 		contentPane.add(btnNewButton, BorderLayout.SOUTH);
 	}
 
-	private void InitTable(JTable table) {
-		table.setModel(new DefaultTableModel(null,  new String[] { "Зупинка" }));
+	private DefaultTableModel getSelectedModel(JTabbedPane tabbedPane) {
+		byte index = (byte) tabbedPane.getSelectedIndex();
+		if (index == 0) {
+			return (DefaultTableModel) table.getModel();
+		} else {
+			return (DefaultTableModel) table_1.getModel();
+		}
+	}
+
+	protected void update_route(String old_id2, JFormattedTextField formattedTextField_routeName,
+			JFormattedTextField formattedTextField_price, JFormattedTextField formattedTextField_interval,
+			JFormattedTextField formattedTextField_interval2, JFormattedTextField formattedTextField_workTime,
+			Flights flights) {
+
+		Main.r.set(Main.r.indexOf(route),
+				new Route(Integer.parseInt(old_id2), formattedTextField_routeName.getText(), transportType,
+						Integer.parseInt(formattedTextField_price.getText()),
+						Integer.parseInt(formattedTextField_interval.getText()), formattedTextField_workTime.getText(),
+						flights));
+	}
+
+	private void add_route(JFormattedTextField formattedTextField_id, JFormattedTextField formattedTextField_routeName,
+			JFormattedTextField formattedTextField_price, JFormattedTextField formattedTextField_interval,
+			JFormattedTextField formattedTextField_interval2, JFormattedTextField formattedTextField_workTime,
+			Flights flights) {
+
+		Main.r.add(new Route(Integer.parseInt(formattedTextField_id.getText()), formattedTextField_routeName.getText(),
+				transportType, Integer.parseInt(formattedTextField_price.getText()),
+				Integer.parseInt(formattedTextField_interval.getText()), formattedTextField_workTime.getText(),
+				flights));
 	}
 
 	private int[] getIdTable(JTable table) {
