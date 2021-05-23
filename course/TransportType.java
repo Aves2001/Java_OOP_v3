@@ -11,6 +11,6 @@ public enum TransportType {
 
 	@Override
 	public String toString() {
-		return (String) name.toString();
+		return name;
 	}
 }

@@ -2,7 +2,6 @@ package course;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -18,27 +17,8 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 
 public class Dialog extends JDialog {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2160746013654435297L;
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String arg) {
-//		try {
-//			Dialog dialog = new Dialog(arg);
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
-	/**
-	 * Create the dialog.
-	 */
 	public Dialog(String arg) {
 		this.setVisible(true);
 		setBounds(100, 100, 340, 110);
@@ -46,7 +26,6 @@ public class Dialog extends JDialog {
 		this.setLocation((screen.width - this.getWidth()) / 2, (screen.height - this.getHeight()) / 2);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setFocusTraversalPolicyProvider(true);
-//		setLocationByPlatform(true);
 		setAlwaysOnTop(true);
 		setTitle("Увага");
 		getContentPane().setLayout(new BorderLayout());
@@ -61,8 +40,6 @@ public class Dialog extends JDialog {
 						dispose();
 					}
 				});
-		   
-
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -87,5 +64,4 @@ public class Dialog extends JDialog {
 			getContentPane().add(txtpnAsd, BorderLayout.CENTER);
 		}
 	}
-
 }

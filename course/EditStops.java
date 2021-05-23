@@ -1,7 +1,6 @@
 package course;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -24,24 +23,8 @@ public class EditStops extends JFrame {
 	private JPanel contentPane;
 	public static JTable table;
 
-	public static void main() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditStops frame = new EditStops();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public EditStops() {
-
+		this.setVisible(true);
 		setTitle("Редагування зупинок");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 435, 366);
@@ -96,13 +79,11 @@ public class EditStops extends JFrame {
 				try {
 					Stop.out(Main.stops);
 				} catch (IOException e1) {
-					// TODO Автоматически созданный блок catch
 					e1.printStackTrace();
 				}
 				dispose();
 			}
 		});
-
 		JButton btnNewButton_3 = new JButton("Імпорт");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -134,5 +115,4 @@ public class EditStops extends JFrame {
 		});
 		panel.add(btnNewButton_2);
 	}
-
 }

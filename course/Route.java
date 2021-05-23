@@ -10,8 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Route implements Serializable  {
-
+public class Route implements Serializable {
 	private static final long serialVersionUID = -6621220687991176570L;
 	private int id;
 	private String routeName;
@@ -20,8 +19,6 @@ public class Route implements Serializable  {
 	private int interval;
 	private String workTime;
 	private Flights flights;
-	
-	private int num = 1;
 
 	public Route(int id, String routeName, TransportType transportType, int price, int interval, String workTime, Flights flights) {
 		this.id = id;
@@ -32,7 +29,7 @@ public class Route implements Serializable  {
 		this.workTime = workTime;
 		this.flights = flights;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -53,81 +50,61 @@ public class Route implements Serializable  {
 		return workTime;
 	}
 
-	public int getNum() {
-		return num;
-	}
-
 	public String getRouteName() {
 		return routeName;
 	}
-	
+
 	public TransportType getTransportType() {
 		return transportType;
 	}
+
 	public Flights getFlights() {
 		return flights;
 	}
 
-	public static void out(List<Route> r) throws IOException
-	{
+	public static void out(List<Route> r) throws IOException {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Route.bin"))) {
 			oos.writeObject(r);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public static List<Route> input(File file)
-	{
+	public static List<Route> input(File file) {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
 			List<Route> tmp = (List<Route>) ois.readObject();
-			if (tmp.get(0).getSerialversionuid() == serialVersionUID) {				
-				return tmp; 
+			if (tmp.get(0).getSerialversionuid() == serialVersionUID) {
+				return tmp;
 			}
-			} catch (Exception e) {
-				return null;
-			}
-//		catch (Exception e) {
-//			// TODO: handle exception
-//			return null;
-//		}
+		} catch (Exception e) {
+			return null;
+		}
 		return null;
-		
 	}
+
 	@SuppressWarnings("unchecked")
-	public static List<Route> input() throws IOException, ClassNotFoundException
-	{
+	public static List<Route> input() throws IOException, ClassNotFoundException {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Route.bin"))) {
 			return (List<Route>) ois.readObject();
-			} catch (IOException e) {
-				List<Route> r = new ArrayList<Route>();
-				out(r);
-				return r;
-			}
+		} catch (IOException e) {
+			List<Route> r = new ArrayList<Route>();
+			out(r);
+			return r;
+		}
 	}
-	
+
 	public String getInfo() {
-		return String.format("\nНомер маршруту: %s \n"
-				+ "Рейси: %s"
-				+ "Тип транспорту: %s \n"
-				+ "Вартість проїзду: %s гривень\n"
-				+ "Інтервал руху: %s хвилин\n"
-				+ "Час роботи: %s \n",
-				
+		return String.format(
+				"\nНомер маршруту: %s \n" + "Рейси: %s" + "Тип транспорту: %s \n" + "Вартість проїзду: %s гривень\n"
+						+ "Інтервал руху: %s хвилин\n" + "Час роботи: %s \n",
 				routeName,
 				"\n" + "Прямий: " + flights.getFlightName1() + "\nЗворотний: " + flights.getFlightName2() + "\n",
-				transportType,
-				price,
-				interval,
-				workTime);
+				transportType, price, interval, workTime);
 	}
 
 	@Override
 	public String toString() {
-		// TODO Автоматически созданная заглушка метода
 		return String.format("%s", routeName);
 	}
 }

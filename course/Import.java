@@ -19,7 +19,6 @@ import java.util.stream.Stream;
 import java.awt.event.ActionEvent;
 
 public class Import extends JFrame {
-
 	private static final long serialVersionUID = 3577823498058349113L;
 	private JPanel contentPane;
 
@@ -66,9 +65,12 @@ public class Import extends JFrame {
 						s = textAr[i].replace("[", "").split("]");
 						Vector<Comparable> row = new Vector<Comparable>();
 						row.add(Integer.parseInt(s[0].trim()));
-						row.add(s[1].trim());
+						if (s.length > 1) {							
+							row.add(s[1].trim());
+						}
 						model.addRow(row);
 					} catch (Exception e2) {
+						e2.printStackTrace();
 						errorString.add("\n" + Arrays.toString(s));
 					}
 				}

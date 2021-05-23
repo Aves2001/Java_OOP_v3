@@ -11,21 +11,15 @@ public class Flights implements Serializable {
 	private static final long serialVersionUID = -204990551418375223L;
 	private static int i = 0;
 	private int[] id_flight1;
-//	private String flightName1;
-
 	private int[] id_flight2;
-//	private String flightName2;
 
 	public Flights(int[] flight1) {
 		this.id_flight1 = flight1;
-//		this.flightName1 = flightName1;
 	}
 
 	public Flights(int[] flight1, int[] flight2) {
 		this.id_flight1 = flight1;
-//		this.flightName1 = flightName1;
 		this.id_flight2 = flight2;
-//		this.flightName2 = flightName2;
 	}
 
 	public String getFlightName1() {
@@ -40,10 +34,9 @@ public class Flights implements Serializable {
 	{
 		String str1 = null, str2 = null;
 		try {
-			str1= Main.stops.stream().filter(s -> s.getId() == id_flight[0]).map(s -> s.getTitle()).toArray()[0].toString();			
+			str1= Main.stops.stream().filter(s -> s.getId() == id_flight[0]).map(s -> s.getTitle()).toArray()[0].toString();
 		} catch (Exception e) {
-			// TODO: handle exception
-			if (id_flight != null && id_flight.length > 0) {				
+			if (id_flight.length > 0) {				
 				str1 = "[" + id_flight[0] + "]" + " [Інформація відсутня]";
 			}
 			else {
@@ -51,10 +44,10 @@ public class Flights implements Serializable {
 			}
 		}
 		
-		try {			
+		try {
 			str2 = " -- " + Main.stops.stream().filter(s -> s.getId() == id_flight[id_flight.length - 1]).map(s -> s.getTitle()).toArray()[0].toString();
 		} catch (Exception e) {
-			if (id_flight != null && id_flight.length > 0) {				
+			if (id_flight.length > 0) {				
 				str2 = " -- " + "[" + id_flight[id_flight.length - 1] + "]" + " [Інформація відсутня]";
 			}
 			else {
@@ -80,8 +73,6 @@ public class Flights implements Serializable {
 				return tmp_add(id_flight2, stops);
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			// TODO: handle exception
-			System.out.println("error------------- class Flights ------------- getFlight");
 			e.printStackTrace();
 		}
 		return null;
@@ -95,7 +86,7 @@ public class Flights implements Serializable {
 			try {						
 				x = stops.stream().filter(s -> s.getId() == id_flight[i]).map(s -> s.getTitle()).toArray()[0].toString();
 			} catch (Exception e) {
-				x = "        [" + id_flight[i] + "]" + " [Інформація відсутня]";
+				x = "[" + id_flight[i] + "]" + " [Інформація відсутня]";
 			}
 			tmp.add(x);
 		}

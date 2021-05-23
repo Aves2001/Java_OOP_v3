@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Stop implements Serializable {
-
 	private static final long serialVersionUID = -4285967733695047959L;
 	public long getSerialversionuid() {
 		return serialVersionUID;
@@ -33,7 +32,6 @@ public class Stop implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -54,14 +52,12 @@ public class Stop implements Serializable {
 				.collect(Collectors.toList()); 
 	}
 
-
 	@SuppressWarnings("unchecked")
 	public static List<Stop> input() throws IOException {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Stops.bin"))) {
 			List<Stop> tmp = (List<Stop>) ois.readObject();
 			return SortToId(tmp);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			List<Stop> s = new ArrayList<Stop>();
 			out(s);
 			return s;
