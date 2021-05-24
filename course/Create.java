@@ -265,11 +265,13 @@ public class Create extends JFrame {
 						new Dialog("Потрібно вказати ID");
 						return;
 					}
+					if (route == null) {
 					for (Route r : Main.r) {
 						if (String.valueOf(r.getId()).equals(formattedTextField_id.getText())) {
 							new Dialog("Маршрут з такм ID уже є:\n" + r.getRouteName() + " " + r.getTransportType());
 							return;
 						}
+					}
 					}
 					if (formattedTextField_routeName.getText().equals("")) {
 						new Dialog("Потрібно вказати номер маршруту");
@@ -422,7 +424,7 @@ public class Create extends JFrame {
 		}
 	}
 
-	protected void update_route(String old_id2, JFormattedTextField formattedTextField_routeName,
+	private void update_route(String old_id2, JFormattedTextField formattedTextField_routeName,
 			JFormattedTextField formattedTextField_price, JFormattedTextField formattedTextField_interval,
 			JFormattedTextField formattedTextField_workTime, Flights flights) {
 
