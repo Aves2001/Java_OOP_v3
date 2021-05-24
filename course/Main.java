@@ -324,15 +324,15 @@ public class Main extends JFrame {
 		panel_5.getLayout();
 		panel.add(panel_5);
 		////////////////////////////////////////////////////////////////////
-		scrollPane.setPreferredSize(new Dimension(300, 200));
+		scrollPane.setPreferredSize(new Dimension(300, 195));
 		panel_5.add(scrollPane);
 		scrollPane.setVisible(false);
 		scrollPane.setEnabled(false);
 
 		table = new JTable();
+		table.setFillsViewportHeight(true);
 		table.setRowSelectionAllowed(false);
 		table.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		table.setPreferredSize(new Dimension(400, 195));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		scrollPane.setViewportView(table);
 		textPane_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
