@@ -12,7 +12,6 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.awt.event.ActionEvent;
@@ -79,7 +78,7 @@ public class EditStops extends JFrame {
 				setStop = null;
 				try {
 					Stop.out(Main.stops);
-				} catch (IOException e1) {
+				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 				dispose();

@@ -3,7 +3,6 @@ package course;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -27,11 +26,9 @@ public class Stop implements Serializable {
 		this.title = title;
 	}
 
-	public static void out(List<Stop> r) throws IOException {
+	public static void out(List<Stop> r) throws Exception {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Stops.bin"))) {
 			oos.writeObject(r);
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -50,7 +47,7 @@ public class Stop implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<Stop> input() throws IOException {
+	public static List<Stop> input() throws Exception {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Stops.bin"))) {
 			List<Stop> tmp = (List<Stop>) ois.readObject();
 			return SortToId(tmp);

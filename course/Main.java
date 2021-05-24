@@ -3,7 +3,6 @@ package course;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
@@ -63,7 +62,9 @@ public class Main extends JFrame {
 		});
 	}
 
-	private static void Init() throws IOException, ClassNotFoundException {
+	private static void Init() throws Exception {
+		try {
+			
 		stops = Stop.input();
 		r = Route.input();
 		if (r == null || r.size() == 0) {
@@ -72,6 +73,9 @@ public class Main extends JFrame {
 		if (stops == null || stops.size() == 0) {
 			new Dialog("Зупинки не знайдені.");
 		}
+	} catch (Exception e) {
+		new Dialog("Помилка:\n" + e.getMessage());
+	}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -134,9 +138,13 @@ public class Main extends JFrame {
 				try {
 					Route.out(r);
 					Stop.out(stops);
-				} catch (IOException e1) {
+				} catch (Exception e1) {
+					new Dialog("Не збережено\n" + e1.getMessage());
 					e1.printStackTrace();
-				}
+					System.out.println("asdasds");
+					return;
+				}			
+				new Dialog("Збережено");
 			}
 		});
 

@@ -63,11 +63,9 @@ public class Route implements Serializable {
 		return flights;
 	}
 
-	public static void out(List<Route> r) throws IOException {
+	public static void out(List<Route> r) throws Exception {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Route.bin"))) {
 			oos.writeObject(r);
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -85,7 +83,7 @@ public class Route implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<Route> input() throws IOException, ClassNotFoundException {
+	public static List<Route> input() throws Exception {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Route.bin"))) {
 			return (List<Route>) ois.readObject();
 		} catch (IOException e) {
