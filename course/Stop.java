@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 public class Stop implements Serializable {
 	private static final long serialVersionUID = -4285967733695047959L;
+
 	public long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -37,19 +38,15 @@ public class Stop implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Stop> input(File file) {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-			List<Stop> tmp = (List<Stop>) ois.readObject(); 
+			List<Stop> tmp = (List<Stop>) ois.readObject();
 			return SortToId(tmp);
 		} catch (Exception e) {
 		}
 		return null;
 	}
-	
-	private static List<Stop> SortToId(List<Stop> tmp) throws Exception
-	{
-		return tmp
-				.stream()
-				.sorted(Comparator.comparingInt(Stop::getId))
-				.collect(Collectors.toList()); 
+
+	private static List<Stop> SortToId(List<Stop> tmp) throws Exception {
+		return tmp.stream().sorted(Comparator.comparingInt(Stop::getId)).collect(Collectors.toList());
 	}
 
 	@SuppressWarnings("unchecked")

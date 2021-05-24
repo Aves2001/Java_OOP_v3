@@ -22,7 +22,7 @@ public class Dialog extends JDialog {
 	public Dialog(String arg) {
 		this.setVisible(true);
 		setBounds(100, 100, 340, 110);
-        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation((screen.width - this.getWidth()) / 2, (screen.height - this.getHeight()) / 2);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setFocusTraversalPolicyProvider(true);

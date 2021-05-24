@@ -38,13 +38,13 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class Main extends JFrame {
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 	public static List<Route> r = new ArrayList<>();
 	public static List<Stop> stops = new ArrayList<>();
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
 	private TransportType transportType;
-	JTextPane textPane_2 = new JTextPane();
-	JScrollPane scrollPane = new JScrollPane();
+	private JTextPane textPane_2 = new JTextPane();
+	private JScrollPane scrollPane = new JScrollPane();
 
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JTable table;
@@ -88,7 +88,7 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				showInfo(comboBox, comboBox_1, textPane_2);
 			}
-		});		
+		});
 		addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -100,7 +100,10 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (comboBox.getSelectedIndex() != -1) {
 					Flights tmp = null;
-					tmp = ((Route)r.stream().filter(s -> s.getTransportType() == transportType && s.getId() == ((Route)comboBox.getSelectedItem()).getId()).toArray()[0]).getFlights();
+					tmp = ((Route) r.stream()
+							.filter(s -> s.getTransportType() == transportType
+									&& s.getId() == ((Route) comboBox.getSelectedItem()).getId())
+							.toArray()[0]).getFlights();
 					comboBox_1.removeAllItems();
 					String[] tmp2 = new String[2];
 					if (tmp != null) {
@@ -115,7 +118,7 @@ public class Main extends JFrame {
 					showInfo(comboBox, comboBox_1, textPane_2);
 				}
 			}
-		});	
+		});
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Тролейбус");
 		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Автобус");
 //////////////////////////////////////////////////////////////////////////////////
@@ -143,7 +146,7 @@ public class Main extends JFrame {
 				/////////////////////////////////////////////////////////////////////////////////
 				JFileChooser fileopen = new JFileChooser(new File(".").getAbsolutePath());
 				fileopen.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				
+
 				int ret = fileopen.showDialog(null, "Відкрити файл");
 				if (ret == JFileChooser.APPROVE_OPTION) {
 					setSelectedClear(comboBox, comboBox_1, textPane_2);
@@ -154,8 +157,7 @@ public class Main extends JFrame {
 					}
 					if (Route.input(fileopen.getSelectedFile()) == null) {
 						new Dialog("Такий файл не підтримується");
-					}
-					else {
+					} else {
 						r = Route.input(fileopen.getSelectedFile());
 						new Dialog("Маршрути завантажені");
 					}
@@ -186,24 +188,21 @@ public class Main extends JFrame {
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (comboBox.getSelectedIndex() != -1) {
-				r.remove(comboBox.getSelectedItem());
-				table.setVisible(false);
-				setSelectedClear(comboBox, comboBox_1, textPane_2);
-				}
-				else {
+					r.remove(comboBox.getSelectedItem());
+					table.setVisible(false);
+					setSelectedClear(comboBox, comboBox_1, textPane_2);
+				} else {
 					new Dialog("Для видалення маршруту, спочатку виберіть його.");
 				}
 			}
 		});
-		
+
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Редагувати маршрут");
 		mntmNewMenuItem_5.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
 		mntmNewMenuItem_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					new Create(
-							(Route)comboBox.getSelectedItem()
-							);
+					new Create((Route) comboBox.getSelectedItem());
 					setSelectedClear(comboBox, comboBox_1, textPane_2);
 				} catch (Exception e2) {
 					new Create();
@@ -348,7 +347,7 @@ public class Main extends JFrame {
 	private void Enabled(JComboBox<Object> comboBox, JComboBox<Object> comboBox_1) {
 		comboBox.setEnabled(true);
 		comboBox_1.setEnabled(true);
-		comboBox_1.setVisible(true);	
+		comboBox_1.setVisible(true);
 		textPane_2.setVisible(true);
 		table.setEnabled(true);
 		table.setVisible(true);
@@ -390,7 +389,7 @@ public class Main extends JFrame {
 			table.setModel(new DefaultTableModel(tabl, new String[] { "Зупинки" }));
 			textPane_2
 					.setText((String) r.stream().filter(s -> s.getId() == ((Route) comboBox.getSelectedItem()).getId())
-					.map(s -> s.getInfo()).toArray()[0]);
+							.map(s -> s.getInfo()).toArray()[0]);
 		}
 	}
 }

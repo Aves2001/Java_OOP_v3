@@ -97,6 +97,7 @@ public class Create extends JFrame {
 			public void focusLost(FocusEvent e) {
 				validate();
 			}
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				validate();
@@ -266,7 +267,7 @@ public class Create extends JFrame {
 					}
 					for (Route r : Main.r) {
 						if (String.valueOf(r.getId()).equals(formattedTextField_id.getText())) {
-							new Dialog("Маршрут з такм ID уже є:\n"+r.getRouteName()+" "+r.getTransportType());
+							new Dialog("Маршрут з такм ID уже є:\n" + r.getRouteName() + " " + r.getTransportType());
 							return;
 						}
 					}
@@ -290,17 +291,14 @@ public class Create extends JFrame {
 						new Dialog("Потрібно вказати час роботи");
 						return;
 					}
-					
-					
+
 					Flights flights = new Flights(getIdTable(table), getIdTable(table_1));
 					if (route == null) {
 						add_route(formattedTextField_id, formattedTextField_routeName, formattedTextField_price,
-								formattedTextField_interval, formattedTextField_workTime,
-								flights);
+								formattedTextField_interval, formattedTextField_workTime, flights);
 					} else {
 						update_route(old_id, formattedTextField_routeName, formattedTextField_price,
-								formattedTextField_interval, formattedTextField_workTime,
-								flights);
+								formattedTextField_interval, formattedTextField_workTime, flights);
 					}
 					dispose();
 				} catch (Exception e1) {
@@ -382,14 +380,14 @@ public class Create extends JFrame {
 					if (index == 0 && table.getRowCount() > 0) {
 						model = (DefaultTableModel) table.getModel();
 						if (table.getSelectedRow() == -1) {
-							model.removeRow(table.getRowCount() -1 );
+							model.removeRow(table.getRowCount() - 1);
 							return;
 						}
 						model.removeRow(table.getSelectedRow());
 					} else if (index == 1 && table_1.getRowCount() > 0) {
 						model = (DefaultTableModel) table_1.getModel();
 						if (table_1.getSelectedRow() == -1) {
-							model.removeRow(table_1.getRowCount() -1 );	
+							model.removeRow(table_1.getRowCount() - 1);
 							return;
 						}
 						model.removeRow(table_1.getSelectedRow());
@@ -417,17 +415,16 @@ public class Create extends JFrame {
 		byte index = (byte) tabbedPane.getSelectedIndex();
 		if (index == 0) {
 			return (DefaultTableModel) table.getModel();
-		} else if(index == 1) {
+		} else if (index == 1) {
 			return (DefaultTableModel) table_1.getModel();
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
+
 	protected void update_route(String old_id2, JFormattedTextField formattedTextField_routeName,
-			JFormattedTextField formattedTextField_price, JFormattedTextField formattedTextField_interval, 
-			JFormattedTextField formattedTextField_workTime,
-			Flights flights) {
+			JFormattedTextField formattedTextField_price, JFormattedTextField formattedTextField_interval,
+			JFormattedTextField formattedTextField_workTime, Flights flights) {
 
 		Main.r.set(Main.r.indexOf(route),
 				new Route(Integer.parseInt(old_id2), formattedTextField_routeName.getText(), transportType,
@@ -438,8 +435,7 @@ public class Create extends JFrame {
 
 	private void add_route(JFormattedTextField formattedTextField_id, JFormattedTextField formattedTextField_routeName,
 			JFormattedTextField formattedTextField_price, JFormattedTextField formattedTextField_interval,
-			JFormattedTextField formattedTextField_workTime,
-			Flights flights) {
+			JFormattedTextField formattedTextField_workTime, Flights flights) {
 
 		Main.r.add(new Route(Integer.parseInt(formattedTextField_id.getText()), formattedTextField_routeName.getText(),
 				transportType, Integer.parseInt(formattedTextField_price.getText()),

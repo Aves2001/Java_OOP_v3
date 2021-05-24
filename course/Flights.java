@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Flights implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -204990551418375223L;
 	private static int i = 0;
 	private int[] id_flight1;
@@ -25,32 +22,31 @@ public class Flights implements Serializable {
 	public String getFlightName1() {
 		return getFlightName(id_flight1);
 	}
-	
+
 	public String getFlightName2() {
 		return getFlightName(id_flight2);
 	}
-	
-	private String getFlightName(int[] id_flight)
-	{
+
+	private String getFlightName(int[] id_flight) {
 		String str1 = null, str2 = null;
 		try {
-			str1= Main.stops.stream().filter(s -> s.getId() == id_flight[0]).map(s -> s.getTitle()).toArray()[0].toString();
+			str1 = Main.stops.stream().filter(s -> s.getId() == id_flight[0]).map(s -> s.getTitle()).toArray()[0]
+					.toString();
 		} catch (Exception e) {
-			if (id_flight.length > 0) {				
+			if (id_flight.length > 0) {
 				str1 = "[" + id_flight[0] + "]" + " [Інформація відсутня]";
-			}
-			else {
+			} else {
 				str1 = "[Інформація відсутня]";
 			}
 		}
-		
+
 		try {
-			str2 = " -- " + Main.stops.stream().filter(s -> s.getId() == id_flight[id_flight.length - 1]).map(s -> s.getTitle()).toArray()[0].toString();
+			str2 = " -- " + Main.stops.stream().filter(s -> s.getId() == id_flight[id_flight.length - 1])
+					.map(s -> s.getTitle()).toArray()[0].toString();
 		} catch (Exception e) {
-			if (id_flight.length > 0) {				
+			if (id_flight.length > 0) {
 				str2 = " -- " + "[" + id_flight[id_flight.length - 1] + "]" + " [Інформація відсутня]";
-			}
-			else {
+			} else {
 				str2 = " -- [Інформація відсутня]";
 			}
 		}
@@ -77,14 +73,14 @@ public class Flights implements Serializable {
 		}
 		return null;
 	}
-	
-	public Object[] tmp_add (int[] id_flight, List<Stop> stops)
-	{
+
+	public Object[] tmp_add(int[] id_flight, List<Stop> stops) {
 		List<String> tmp = new ArrayList<String>();
 		String x;
 		for (i = 0; i < id_flight.length; i++) {
-			try {						
-				x = stops.stream().filter(s -> s.getId() == id_flight[i]).map(s -> s.getTitle()).toArray()[0].toString();
+			try {
+				x = stops.stream().filter(s -> s.getId() == id_flight[i]).map(s -> s.getTitle()).toArray()[0]
+						.toString();
 			} catch (Exception e) {
 				x = "[" + id_flight[i] + "]" + " [Інформація відсутня]";
 			}

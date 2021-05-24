@@ -21,7 +21,7 @@ import java.awt.Font;
 public class EditStops extends JFrame {
 	private static final long serialVersionUID = -5580386848933709904L;
 	private JPanel contentPane;
-	public static JTable table;
+	private static JTable table;
 
 	public EditStops() {
 		this.setVisible(true);
@@ -58,8 +58,8 @@ public class EditStops extends JFrame {
 		table.getColumnModel().getColumn(1).setMinWidth(150);
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-        RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
-        table.setRowSorter(sorter);
+		RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+		table.setRowSorter(sorter);
 		scrollPane.setViewportView(table);
 
 		JPanel panel = new JPanel();
@@ -71,7 +71,8 @@ public class EditStops extends JFrame {
 				Main.stops.clear();
 				Set<Integer> setStop = new HashSet<>();
 				for (int i = 0; i < table.getRowCount(); i++) {
-					if (table.getValueAt(i, 0) != null && table.getValueAt(i, 1) != null && setStop.add((int) table.getValueAt(i, 0))) {
+					if (table.getValueAt(i, 0) != null && table.getValueAt(i, 1) != null
+							&& setStop.add((int) table.getValueAt(i, 0))) {
 						Main.stops.add(new Stop((int) table.getValueAt(i, 0), table.getValueAt(i, 1).toString()));
 					}
 				}

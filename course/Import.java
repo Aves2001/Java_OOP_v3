@@ -57,7 +57,8 @@ public class Import extends JFrame {
 
 			@SuppressWarnings("rawtypes")
 			public void actionPerformed(ActionEvent e) {
-				String[] textAr = Stream.of(textArea.getText().split("\n")).filter(s -> s.length() > 0).toArray(String[]::new);
+				String[] textAr = Stream.of(textArea.getText().split("\n")).filter(s -> s.length() > 0)
+						.toArray(String[]::new);
 				List<String> errorString = new ArrayList<>();
 				String[] s = new String[2];
 				for (int i = 0; i < textAr.length; i++) {
@@ -65,17 +66,17 @@ public class Import extends JFrame {
 						s = textAr[i].replace("[", "").split("]");
 						Vector<Comparable> row = new Vector<Comparable>();
 						row.add(Integer.parseInt(s[0].trim()));
-						if (s.length > 1) {							
+						if (s.length > 1) {
 							row.add(s[1].trim());
 						}
 						model.addRow(row);
 					} catch (Exception e2) {
-						e2.printStackTrace();
 						errorString.add("\n" + Arrays.toString(s));
 					}
 				}
 				if (errorString.size() > 0) {
-					new Dialog("Увага наступні дані не вдалось імпортувати:" + Arrays.toString(errorString.toArray()).replace("[", "").replace("]", ""));
+					new Dialog("Увага наступні дані не вдалось імпортувати:"
+							+ Arrays.toString(errorString.toArray()).replace("[", "").replace("]", ""));
 				}
 				dispose();
 			}

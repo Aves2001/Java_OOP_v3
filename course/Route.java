@@ -20,7 +20,8 @@ public class Route implements Serializable {
 	private String workTime;
 	private Flights flights;
 
-	public Route(int id, String routeName, TransportType transportType, int price, int interval, String workTime, Flights flights) {
+	public Route(int id, String routeName, TransportType transportType, int price, int interval, String workTime,
+			Flights flights) {
 		this.id = id;
 		this.routeName = routeName;
 		this.transportType = transportType;
