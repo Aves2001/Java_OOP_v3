@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -89,9 +90,9 @@ public class Toy {
 	}
 
 	public static void out(List<Toy> toys) throws Exception {
-		FileWriter out = new FileWriter(FileName);
+		FileWriter out = new FileWriter(FileName, StandardCharsets.UTF_8);
 		try {
-			out.write(Arrays.toString(toys.toArray()).replace("[", "").replace("]", "").trim());
+			out.write(Arrays.toString(toys.toArray()).replace("[", "").replace("]", "").trim().toString());
 		} finally {
 			out.close();
 		}
@@ -126,7 +127,7 @@ public class Toy {
 			if (file.length() == 0) {
 				throw new Exception("Файл порожній");
 			}
-			in = new BufferedReader(new FileReader(file));
+			in = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8));
 			List<Toy> Toys = new ArrayList<Toy>();
 			String line = null;
 			List<String> error = new ArrayList<>();
