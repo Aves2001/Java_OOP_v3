@@ -234,7 +234,7 @@ public class Main extends JFrame {
 		checkItem_sort.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (checkItem_sort.isSelected() && toys.size() > 0) {
-					int max = toys.stream().mapToInt(s -> s.getPrice()).max().getAsInt() - 10;
+					int max = toys.stream().mapToInt(s -> s.getPrice()).max().getAsInt() - 1000;
 					table.setModel(new ToysTableModel(toys.stream().filter(s -> s.getPrice() > max)
 							.sorted((s2, s1) -> s1.getPrice() - s2.getPrice()).collect(Collectors.toList())));
 				} else {

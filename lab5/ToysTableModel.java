@@ -62,7 +62,7 @@ public class ToysTableModel extends AbstractTableModel {
 		}
 		if (selectedRow >= 0) {
 			toys.remove(selectedRow);
-			fireTableRowsInserted(toys.size() - 1, toys.size() - 1);
+			fireTableRowsInserted(0, toys.size() - 1);
 		}
 	}
 
